@@ -37,3 +37,5 @@ pagehelper:
     reasonable: true
     supportMethodsArguments: true
     params-count: countSql
+swagger2:
+    enable: true

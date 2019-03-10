@@ -16,7 +16,8 @@ public class AnnotiondemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AnnotiondemoApplication.class, args);
 	}
-	
+
+	//http://localhost:8080/swagger-ui.html#/
 
 	// 配置mybatis的分页插件pageHelper
 		@Bean
