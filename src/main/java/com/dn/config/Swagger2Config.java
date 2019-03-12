@@ -36,6 +36,8 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .select()
                 ////.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+                //.apis(RequestHandlerSelectors.basePackage("com.liuzw.springbootshiro.controller"))
+
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build()
