@@ -39,3 +39,16 @@ pagehelper:
     params-count: countSql
 swagger2:
     enable: true
+
+ redis:
+    database: 0
+    host: 192.168.1.101
+    password: redis123456
+    port: 6379
+    timeout: 0
+    jedis:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-active: 8
+        max-wait: 1
