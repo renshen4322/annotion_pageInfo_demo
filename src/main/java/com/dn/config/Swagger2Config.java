@@ -30,7 +30,7 @@ public class Swagger2Config {
 
     @Bean
     public Docket createRestApi() {
-        List<Parameter> pars = new ArrayList<Parameter>();
+        List<Parameter> pars = new ArrayList<>();
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(swagger2Enable)
                 .apiInfo(apiInfo())
