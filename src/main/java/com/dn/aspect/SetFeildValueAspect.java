@@ -24,6 +24,7 @@ public class SetFeildValueAspect {
 		if(ret instanceof Collection){
 			this.beanUtil.setFeildValueForCollection((Collection)ret);
 		}else{
+			this.beanUtil.setFeildValueForCollection2(ret);
 			 //如果返回的是一个单个对象，自己补全
 		}
 		return ret;
