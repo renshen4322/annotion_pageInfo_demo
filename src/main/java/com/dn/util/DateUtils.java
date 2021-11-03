@@ -902,7 +902,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
      */
     public static String geSpecialDate(Date inputDate, boolean yesterdayTime) {
         if (Objects.isNull(inputDate)) {
-            return com.example.utils.StringUtils.EMPTY;
+            return StringUtils.EMPTY;
         }
         String hhmm = DateUtils.parseDateToStr(HH_MM, inputDate);
         Date targetDate = dateTime(YYYY_MM_DD, dateTime(inputDate));
