@@ -95,6 +95,7 @@ public class OcrController {
                 .mobile("15000427585")
                 .server_hospital("7").build();
         String mapJson = JSON.toJSONString(testReq);
+        log.info("mapJson==="+mapJson);
         String postStr = HttpUtils.post(url,mapJson);
 
         return postStr;
