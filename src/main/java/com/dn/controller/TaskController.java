@@ -27,8 +27,8 @@ public class TaskController {
             ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = requestAttributes.getRequest();
             request.setAttribute("name", "李小龙");
-            request.setAttribute("age",23);
-            request.setAttribute("six","男");
+            request.setAttribute("age", 23);
+            request.setAttribute("six", "男");
             log.info("当前线程为 {}，请求方法为 {}，请求路径为：{}", Thread.currentThread().getName(), request.getMethod(), request.getRequestURL().toString());
             while (true) {
                 if (r1.isDone() || r2.isDone() || r3.isDone()) {

@@ -15,8 +15,7 @@ import java.util.concurrent.Future;
 @Async
 public class TaskService {
 
-        //@Async("taskExecutor")
-    @Async
+    @Async("taskExecutor")
     public Future<String> doTaskOne() throws Exception {
         log.info("开始做任务一");
         long start = System.currentTimeMillis();
@@ -26,12 +25,13 @@ public class TaskService {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         log.info("当前线程为 {}，请求方法为 {}，请求路径为：{}, 请求参数：{}", Thread.currentThread().getName(), request.getMethod(),
-                request.getRequestURL().toString(),request.getAttribute("name"));
+                request.getRequestURL().toString(), request.getAttribute("name"));
+        System.out.println(2/0);
         return new AsyncResult<String>("任务一完成，耗时" + (end - start) + "毫秒");
     }
 
-        //@Async("taskExecutor")
-    @Async
+
+    @Async("taskExecutor")
     public Future<String> doTaskTwo() throws Exception {
         log.info("开始做任务二");
         long start = System.currentTimeMillis();
@@ -41,12 +41,11 @@ public class TaskService {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         log.info("当前线程为 {}，请求方法为 {}，请求路径为：{}, 请求参数：{}", Thread.currentThread().getName(), request.getMethod(),
-                request.getRequestURL().toString(),request.getAttribute("age"));
+                request.getRequestURL().toString(), request.getAttribute("age"));
         return new AsyncResult<String>("任务二完成，耗时" + (end - start) + "毫秒");
     }
 
-        //@Async("taskExecutor")
-    @Async
+    @Async("taskExecutor")
     public Future<String> doTaskThree() throws Exception {
         log.info("开始做任务三");
         long start = System.currentTimeMillis();
@@ -56,7 +55,7 @@ public class TaskService {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         log.info("当前线程为 {}，请求方法为 {}，请求路径为：{}, 请求参数：{}", Thread.currentThread().getName(), request.getMethod(),
-                request.getRequestURL().toString(),request.getAttribute("six"));
+                request.getRequestURL().toString(), request.getAttribute("six"));
         return new AsyncResult<String>("任务三完成，耗时" + (end - start) + "毫秒");
     }
 }
