@@ -19,11 +19,15 @@ public class TaskPoolConfig {
         executor.setMaxPoolSize(20);
         executor.setQueueCapacity(200);
         executor.setKeepAliveSeconds(60);
-        executor.setThreadNamePrefix("taskExecutor-");
+        // 设置线程名前缀+分组名称
+        executor.setThreadNamePrefix("AsyncOperationThread-");
+        executor.setThreadGroupName("AsyncOperationGroup");
+        // 所有任务结束后关闭线程池
         executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setAwaitTerminationSeconds(60);
         executor.setTaskDecorator(new ContextDecorator());
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        // 初始化
         executor.initialize();
         return executor;
     }
