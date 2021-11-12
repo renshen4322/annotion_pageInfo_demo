@@ -10,7 +10,7 @@ import java.io.IOException;
  * @Date:2021/10/26 17:16
  * @Author: mark
  */
-public class Converter {
+public class HtmlToPdfConverter {
     public static void main(String[] args) throws IOException {
         long start = System.currentTimeMillis();
         String result = Html2pdfUtil.parseHtml2Pdf("https://cloud.tencent.com/developer");
