@@ -94,7 +94,7 @@ public class OcrController {
         TestReq testReq = TestReq.builder() //上下二种方式都可
                 .mobile("15000427585")
                 .server_hospital("7").build();
-        String mapJson = JSON.toJSONString(testReq);
+        String mapJson = JSON.toJSONString(params);
         log.info("mapJson==="+mapJson);
         String postStr = HttpUtils.post(url,mapJson);
 

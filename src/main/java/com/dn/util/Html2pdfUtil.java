@@ -1,9 +1,11 @@
 package com.dn.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import com.itextpdf.text.pdf.BaseFont;
+import org.springframework.core.io.ClassPathResource;
+import org.xhtmlrenderer.pdf.ITextFontResolver;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import java.io.*;
 
 /**
  * ClassName:Html2pdfUtil
@@ -14,6 +16,21 @@ import java.io.InputStreamReader;
  * @Author: mark
  */
 public class Html2pdfUtil {
+
+    public static void html2pdf(String htmlContent, File pdfFile) throws Exception {
+       /* OutputStream os = new FileOutputStream(pdfFile);
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.setDocumentFromString(htmlContent);
+        // 中文
+        ITextFontResolver fontResolver = renderer.getFontResolver();
+        ClassPathResource resource = new ClassPathResource("static/fonts/simsun.ttc"); // 下面有截图
+        System.err.println(resource.toString());
+        fontResolver.addFont(resource.getURL().toString(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        renderer.layout();
+        renderer.createPDF(os);
+        os.close();*/
+    }
+
     public static String parseHtml2Pdf(String url) throws IOException {
         System.out.println(url);
         Runtime rt = Runtime.getRuntime();
