@@ -1,9 +1,7 @@
 package com.dn.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.dn.model.TestReq;
-import com.dn.model.TestRes;
 import com.dn.util.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
@@ -27,7 +25,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +44,7 @@ import static com.dn.util.Base64Utils.ImageToBase64;
 public class OcrController {
     @Autowired
     private RestTemplate restTemplate;
+
 
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     //  @WebLog(channel = "web", name = "ocr识别", action = "/query", saveFlag = false)
