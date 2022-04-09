@@ -1,11 +1,12 @@
 package com.dn.model;
 
-import java.io.Serializable;
+import lombok.Data;
 
+import java.io.Serializable;
 public class User implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5575893900970589345L;
 
