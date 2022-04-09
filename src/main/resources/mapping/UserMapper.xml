@@ -3,11 +3,11 @@
 
 <mapper namespace="com.dn.dao.UserDao">
 <select id="query"  resultType="com.dn.model.User">
-    select id ,name
-    from t_user 
+    select id ,username
+    from t_user
     where 1=1
     <if test="userName != null">
-      and name like CONCAT('%',#{userName},'%')
+      and username like CONCAT('%',#{userName},'%')
     </if>
 </select>
 </mapper>

@@ -17,7 +17,7 @@ public class Order implements Serializable {
 
 	private String customerId;
 
-	@NeedSetValue(beanClass=UserDao.class,param="customerId",method="find",targetField="name")
+	@NeedSetValue(beanClass=UserDao.class,param="customerId",method="find",targetField="userName")
 	private String customerName;
 
 	public String getId() {

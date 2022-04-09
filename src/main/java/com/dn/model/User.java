@@ -3,6 +3,9 @@ package com.dn.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Data
 public class User implements Serializable {
 
 	/**
@@ -12,22 +15,31 @@ public class User implements Serializable {
 
 	private String id;
 
-	private String name;
+	private String userName;
 
-	public String getId() {
-		return id;
-	}
+	/**
+	 * 用户密码
+	 */
+	private String password;
 
-	public void setId(String id) {
-		this.id = id;
-	}
 
-	public String getName() {
-		return name;
-	}
+	/**
+	 * 删除状态
+	 */
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	private int deleteStatus;
+
+	private String createBy;
+
+
+	private LocalDateTime createTime;
+
+	private String updateBy;
+
+
+	private LocalDateTime updateTime;
+
+
+
 
 }

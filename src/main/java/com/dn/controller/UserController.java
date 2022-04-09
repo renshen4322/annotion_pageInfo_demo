@@ -39,9 +39,9 @@ public class UserController {
 	public String add(String id, String userName) {
 		User u = new User();
 		u.setId(id);
-		u.setName(userName);
+		u.setUserName(userName);
 		this.userService.insertUser(u);
-		return u.getId() + "    " + u.getName();
+		return u.getId() + "    " + u.getUserName();
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class UserController {
 	@ApiOperation(value = "通过用户id查询")
 	public String findById(@PathVariable("id") String id) {
 		User u = this.userService.findById(id);
-		return u == null ? "找不到对象" : (u.getId() + "    " + u.getName());
+		return u == null ? "找不到对象" : (u.getId() + "    " + u.getUserName());
 	}
 
 	/**
@@ -67,9 +67,9 @@ public class UserController {
 	public String update(String id, String userName) {
 		User u = new User();
 		u.setId(id);
-		u.setName(userName);
+		u.setUserName(userName);
 		this.userService.updateUser(u);
-		return u.getId() + "    " + u.getName();
+		return u.getId() + "    " + u.getUserName();
 	}
 
 	/**
