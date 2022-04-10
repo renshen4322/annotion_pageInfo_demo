@@ -30,7 +30,7 @@ mybatis:
         cache-enabled: true
         log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     mapper-locations: classpath:mapping/*.xml
-    
+    type-handlers-package: com.dn.handler
 pagehelper:
     helperDialect: mysql
     reasonable: true
