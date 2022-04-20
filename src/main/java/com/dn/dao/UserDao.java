@@ -1,5 +1,6 @@
 package com.dn.dao;
 
+import com.dn.handler.Encrypt;
 import com.dn.model.User;
 import org.apache.ibatis.annotations.*;
 
@@ -22,8 +23,11 @@ public interface UserDao {
 
 	int updateByPrimaryKey(User record);
 
-	@Select("select id,username from t_user where id=#{id} ")
+	@Select("select * from t_user where id=#{id} ")
 	User find(@Param("id") String id);
+
+	@Select("select * from t_user where mobile=#{mobile} ")
+	User findByMobile(@Param("mobile") Encrypt mobile);
 
 	List<User> query(@Param("userName") String userName);
 

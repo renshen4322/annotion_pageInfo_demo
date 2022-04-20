@@ -1,5 +1,6 @@
 package com.dn.service;
 
+import com.dn.handler.Encrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,6 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 
-	public User inserUserInfo(User u){
-		this.userDao.insertInfo(u);
-		return this.userDao.find(u.getId().toString());
-	}
 
 
 	public User insertUser(User u) {
@@ -35,6 +32,11 @@ public class UserService {
 	public User updateUser(User u) {
 		this.userDao.updateByPrimaryKey(u);
 		return this.userDao.find(u.getId().toString());
+	}
+
+	public User findByMobile(String mobile) {
+		System.err.println("根据mobile=" + mobile + "获取用户对象，从数据库中获取");
+		return this.userDao.findByMobile(new Encrypt(mobile));
 	}
 
 	public User findById(String id) {

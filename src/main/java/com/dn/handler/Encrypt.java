@@ -1,5 +1,9 @@
 package com.dn.handler;
 
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * ClassName:Encrypt
  * Package:com.dn.handler
@@ -8,7 +12,10 @@ package com.dn.handler;
  * @Date:2022/4/10 12:36
  * @Author: mark
  */
-public class Encrypt {
+@Data
+public class Encrypt implements Serializable {
+    private static final long serialVersionUID = 5528003902154044414L;
+
     private String value;
 
     public Encrypt() {
@@ -18,11 +25,4 @@ public class Encrypt {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
 }

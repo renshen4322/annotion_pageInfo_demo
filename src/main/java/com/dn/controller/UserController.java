@@ -42,18 +42,12 @@ public class UserController {
         return user.getUsername() + " " + user.getMobile();
     }
 
-    /**
-     * 测试插入
-     *
-     * @return
-     */
-    @RequestMapping(value = "/add2", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryByMobile", method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "用户添加")
-    public String add2(@RequestBody User user) {
-       // User user = ExtBeansUtils.map(dto, User.class);
-        this.userService.inserUserInfo(user);
-        return user.getUsername() + " " + user.getMobile();
+    @ApiOperation(value = "通过用户id查询")
+    public User findByMobile(@RequestParam("mobile") String mobile) {
+        User u = this.userService.findByMobile(mobile);
+        return u;
     }
 
     /**
@@ -66,7 +60,7 @@ public class UserController {
     @ApiOperation(value = "通过用户id查询")
     public String findById(@PathVariable("id") String id) {
         User u = this.userService.findById(id);
-        return u == null ? "找不到对象" : (u.getId() + "    " + u.getUsername());
+        return u == null ? "找不到对象" : (u.getId() + "    " + u.getUsername()+" "+u.getMobile());
     }
 
     /**
