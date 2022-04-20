@@ -21,14 +21,14 @@ public class UserService {
 	private UserDao userDao;
 
 	public User insertUser(User u) {
-		this.userDao.insert(u);
-		return this.userDao.find(u.getId());
+		this.userDao.insertSelective(u);
+		return this.userDao.find(u.getId().toString());
 	}
 
 	@CachePut(key = "#p0.id")
 	public User updateUser(User u) {
-		this.userDao.update(u);
-		return this.userDao.find(u.getId());
+		this.userDao.updateByPrimaryKey(u);
+		return this.userDao.find(u.getId().toString());
 	}
 
 	public User findById(String id) {
@@ -37,7 +37,7 @@ public class UserService {
 	}
 
 	public void deleteById(String id) {
-		this.userDao.delete(id);
+		this.userDao.deleteByPrimaryKey(Long.parseLong(id));
 	}
 
 	public PageInfo<User> queryPage(String userName, int pageNum,

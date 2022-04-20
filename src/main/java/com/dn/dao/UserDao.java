@@ -34,4 +34,6 @@ public interface UserDao {
 
 	List<User> query(@Param("userName") String userName);
 
+	//int insertInfo(User record);
+
 }

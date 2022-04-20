@@ -2,6 +2,8 @@ package com.dn.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.dn.handler.Encrypt;
 import lombok.Data;
 
 /**

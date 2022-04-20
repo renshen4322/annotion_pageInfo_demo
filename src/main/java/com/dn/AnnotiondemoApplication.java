@@ -1,14 +1,13 @@
 package com.dn;
 
-import java.util.Properties;
-
+import com.github.pagehelper.PageHelper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
-import com.github.pagehelper.PageHelper;
 import org.springframework.scheduling.annotation.EnableAsync;
+
+import java.util.Properties;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
