@@ -20,6 +20,12 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 
+	public User inserUserInfo(User u){
+		this.userDao.insertInfo(u);
+		return this.userDao.find(u.getId().toString());
+	}
+
+
 	public User insertUser(User u) {
 		this.userDao.insertSelective(u);
 		return this.userDao.find(u.getId().toString());

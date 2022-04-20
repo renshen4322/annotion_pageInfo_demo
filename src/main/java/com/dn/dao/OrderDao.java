@@ -14,4 +14,16 @@ import com.dn.model.Order;
 public interface OrderDao {
 
 	List<Order> query(@Param("customerId") String customerId);
+
+	int deleteByPrimaryKey(String id);
+
+	int insert(generate.Order record);
+
+	int insertSelective(generate.Order record);
+
+	generate.Order selectByPrimaryKey(String id);
+
+	int updateByPrimaryKeySelective(generate.Order record);
+
+	int updateByPrimaryKey(generate.Order record);
 }

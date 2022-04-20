@@ -43,6 +43,20 @@ public class UserController {
     }
 
     /**
+     * 测试插入
+     *
+     * @return
+     */
+    @RequestMapping(value = "/add2", method = RequestMethod.POST)
+    @ResponseBody
+    @ApiOperation(value = "用户添加")
+    public String add2(@RequestBody User user) {
+       // User user = ExtBeansUtils.map(dto, User.class);
+        this.userService.inserUserInfo(user);
+        return user.getUsername() + " " + user.getMobile();
+    }
+
+    /**
      * 测试根据id查询
      *
      * @return

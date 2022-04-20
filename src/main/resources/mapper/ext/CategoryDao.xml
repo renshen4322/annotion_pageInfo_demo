@@ -17,7 +17,7 @@
     </resultMap>
     <select id="selectList" resultMap="categoryMap">
         select *
-        from Category where show_status=1
+        from category where show_status=1
     </select>
 
 </mapper>

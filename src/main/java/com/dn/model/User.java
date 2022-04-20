@@ -21,7 +21,7 @@ public class User implements Serializable {
     /**
      * 手机号
      */
-    private String mobile;
+    private Encrypt mobile;
 
     /**
      * 0 默认 1删除

@@ -1,5 +1,6 @@
 package com.dn.dto;
 
+import com.dn.handler.Encrypt;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class RequestUserDto implements Serializable {
     /**
      * 手机号
      */
-    private String mobile;
+    private Encrypt mobile;
 
 
 }

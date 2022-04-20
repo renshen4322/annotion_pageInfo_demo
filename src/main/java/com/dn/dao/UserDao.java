@@ -1,10 +1,7 @@
 package com.dn.dao;
 
 import com.dn.model.User;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -30,6 +27,7 @@ public interface UserDao {
 
 	List<User> query(@Param("userName") String userName);
 
-	//int insertInfo(User record);
+
+	int insertInfo(User record);
 
 }

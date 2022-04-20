@@ -10,4 +10,10 @@
       and username like CONCAT('%',#{userName},'%')
     </if>
 </select>
+    <insert id="insertInfo" keyColumn="id" keyProperty="id" parameterType="com.dn.model.User" useGeneratedKeys="true">
+        insert into t_user (username, `password`, mobile
+                        )
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}
+               )
+    </insert>
 </mapper>
