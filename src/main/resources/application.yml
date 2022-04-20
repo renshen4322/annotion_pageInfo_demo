@@ -1,6 +1,8 @@
 server:
     port: 8082
 spring:
+    application:
+        name: annotion-pageInfo
     datasource:  
         name: db  
         type: com.alibaba.druid.pool.DruidDataSource  
