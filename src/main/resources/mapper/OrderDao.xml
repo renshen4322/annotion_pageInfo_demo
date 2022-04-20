@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dn.dao.OrderDao">
+  <resultMap id="BaseResultMap" type="com.dn.model.Order">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, customer_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="generate.Order" useGeneratedKeys="true">
+    insert into t_order (customer_id)
+    values (#{customerId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="generate.Order" useGeneratedKeys="true">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        customer_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="generate.Order">
+    update t_order
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="generate.Order">
+    update t_order
+    set customer_id = #{customerId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
