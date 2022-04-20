@@ -1,45 +1,38 @@
 package com.dn.model;
 
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
+/**
+ * t_user
+ * @author 
+ */
 @Data
 public class User implements Serializable {
+    private Long id;
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -5575893900970589345L;
+    private String username;
 
-	private String id;
+    private String password;
 
-	private String userName;
+    /**
+     * 手机号
+     */
+    private String mobile;
 
-	/**
-	 * 用户密码
-	 */
-	private String password;
+    /**
+     * 0 默认 1删除
+     */
+    private Boolean deleteStatus;
 
+    private String createby;
 
-	/**
-	 * 删除状态
-	 */
+    private Date createtime;
 
-	private int deleteStatus;
+    private Date updatetime;
 
-	private String createBy;
+    private String updateby;
 
-
-	private LocalDateTime createTime;
-
-	private String updateBy;
-
-
-	private LocalDateTime updateTime;
-
-
-
-
+    private static final long serialVersionUID = 1L;
 }

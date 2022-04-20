@@ -6,9 +6,9 @@ spring:
     datasource:  
         name: db  
         type: com.alibaba.druid.pool.DruidDataSource  
-        url: jdbc:mysql://127.0.0.1:3306/mybatisplus?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&&serverTimezone=UTC
+        url: jdbc:mysql://192.168.146.129:3306/mybatisplus?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&&serverTimezone=UTC
         username: root  
-        password: 123456  
+        password: gu425006
         driver-class-name: com.mysql.jdbc.Driver  
         minIdle: 5  
         maxActive: 100  
@@ -31,7 +31,7 @@ mybatis:
         mapUnderscoreToCamelCase: true
         cache-enabled: true
         log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    mapper-locations: classpath:mapping/*.xml
+    mapper-locations: classpath:mapper/*.xml,classpath:mapper/ext/*.xml
     type-handlers-package: com.dn.handler
 pagehelper:
     helperDialect: mysql

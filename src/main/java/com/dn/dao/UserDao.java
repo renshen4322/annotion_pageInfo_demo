@@ -17,14 +17,17 @@ import com.dn.model.User;
 @CacheNamespace
 public interface UserDao {
 
-	@Insert("insert t_user(id,username) values(#{id},#{userName})")
-	void insert(User u);
+	int deleteByPrimaryKey(Long id);
 
-	@Update("update t_user set username = #{userName} where id=#{id} ")
-	void update(User u);
+	int insert(User record);
 
-	@Delete("delete from t_user where id=#{id} ")
-	void delete(@Param("id") String id);
+	int insertSelective(User record);
+
+	User selectByPrimaryKey(Long id);
+
+	int updateByPrimaryKeySelective(User record);
+
+	int updateByPrimaryKey(User record);
 
 	@Select("select id,username from t_user where id=#{id} ")
 	User find(@Param("id") String id);
