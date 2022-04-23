@@ -8,9 +8,9 @@ spring:
     datasource:
         name: db
         type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://192.168.146.129:3306/mybatisplus?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&&serverTimezone=UTC
+        url: jdbc:mysql://127.0.0.1:3306/mybatisplus?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&&serverTimezone=UTC
         username: root
-        password: gu425006
+        password: 123456
         driver-class-name: com.mysql.jdbc.Driver
         minIdle: 5
         maxActive: 100
