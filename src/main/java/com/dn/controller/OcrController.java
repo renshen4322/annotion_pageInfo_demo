@@ -151,7 +151,7 @@ public class OcrController {
     @RequestMapping(value = "/query3", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String StrTestOCL2() {
 
-        String path = "src/main/resources/zdzm.jpg";
+        String path = "src/main/resources/cyxj3.jpg";
         String str = "";
         String needStr = path.substring(path.lastIndexOf(".") + 1);
         if (needStr.equals("pdf")) {
