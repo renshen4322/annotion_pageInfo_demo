@@ -1,0 +1,42 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      # 权限认证，nacos.core.auth.enabled=true 时需要添加
+      username: ${nacos.username}
+      password: ${nacos.password}
+      # Nacos 服务注册与发现
+      discovery:
+        server-addr: ${nacos.server-addr}
+        namespace: ${nacos.namespace}
+        group: DEFAULT_GROUP
+        # 自定义元数据
+        metadata:
+          V: 1.0
+      # Nacos 配置中心
+      config:
+        namespace: ${nacos.namespace}
+        file-extension: yaml
+        server-addr: ${nacos.server-add}
+        group: DEFAULT_GROUP
+        enabled: true
+        refresh-enabled: true
+        shared-configs:
+          - data-id: common-mybatis.yaml
+            group: DEFAULT_GROUP
+
+          - data-id: common-redis.yaml
+            group: DEFAULT_GROUP
+
+          - data-id: common-base.yaml
+            group: DEFAULT_GROUP
+          #引入配置中心的多个配置文件
+        extension-configs:
+          - dataId: provider-annotion-pageInfo.yaml
+            namespace: ${nacos.namespace}
+            group: DEFAULT_GROUP
+            refresh: true
+
+
+

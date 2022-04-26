@@ -1,0 +1,17 @@
+nacos:
+  server-addr: 192.168.2.102:8848
+  username: nacos
+  password: nacos
+  namespace: 60ca3fcc-be6c-479e-b54f-cffdbd47e174
+
+spring:
+  #  application:
+  #    name: workOn
+  cloud:
+    nacos:
+      config:
+        namespace: 60ca3fcc-be6c-479e-b54f-cffdbd47e174
+        file-extension: yaml
+        server-addr: 192.168.2.102:8848
+        group: DEV_GROUP
+
