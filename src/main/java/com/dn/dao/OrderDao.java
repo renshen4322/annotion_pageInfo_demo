@@ -17,13 +17,13 @@ public interface OrderDao {
 
 	int deleteByPrimaryKey(String id);
 
-	int insert(generate.Order record);
+	int insert(Order record);
 
-	int insertSelective(generate.Order record);
+	int insertSelective(Order record);
 
-	generate.Order selectByPrimaryKey(String id);
+	Order selectByPrimaryKey(String id);
 
-	int updateByPrimaryKeySelective(generate.Order record);
+	int updateByPrimaryKeySelective(Order record);
 
-	int updateByPrimaryKey(generate.Order record);
+	int updateByPrimaryKey(Order record);
 }

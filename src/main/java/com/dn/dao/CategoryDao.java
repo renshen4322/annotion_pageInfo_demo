@@ -19,13 +19,13 @@ public interface CategoryDao {
 
     int deleteByPrimaryKey(Long catId);
 
-    int insert(generate.Category record);
+    int insert(Category record);
 
-    int insertSelective(generate.Category record);
+    int insertSelective(Category record);
 
-    generate.Category selectByPrimaryKey(Long catId);
+    Category selectByPrimaryKey(Long catId);
 
-    int updateByPrimaryKeySelective(generate.Category record);
+    int updateByPrimaryKeySelective(Category record);
 
-    int updateByPrimaryKey(generate.Category record);
+    int updateByPrimaryKey(Category record);
 }
