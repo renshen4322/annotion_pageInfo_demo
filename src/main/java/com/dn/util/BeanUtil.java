@@ -1,18 +1,17 @@
 package com.dn.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.dn.annotation.NeedSetValue;
+import com.github.pagehelper.util.StringUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import com.dn.annotation.NeedSetValue;
-import com.github.pagehelper.StringUtil;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class BeanUtil implements ApplicationContextAware {
@@ -22,8 +21,9 @@ public class BeanUtil implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         // TODO Auto-generated method stub
-        if (this.applicationContext == null)
+        if (this.applicationContext == null) {
             this.applicationContext = applicationContext;
+        }
 
     }
 

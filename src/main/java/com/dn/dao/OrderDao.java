@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.dn.model.Order;
 
 
-@Mapper
+
 @CacheNamespace
 public interface OrderDao {
 

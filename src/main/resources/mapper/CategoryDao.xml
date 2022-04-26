@@ -25,7 +25,7 @@
     delete from category
     where cat_id = #{catId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="cat_id" keyProperty="catId" parameterType="generate.Category" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="cat_id" keyProperty="catId" parameterType="com.dn.model.Category" useGeneratedKeys="true">
     insert into category (`name`, parent_cid, cat_level, 
       show_status, sort, icon, 
       product_unit, product_count)
@@ -33,7 +33,7 @@
       #{showStatus,jdbcType=TINYINT}, #{sort,jdbcType=INTEGER}, #{icon,jdbcType=CHAR}, 
       #{productUnit,jdbcType=CHAR}, #{productCount,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="cat_id" keyProperty="catId" parameterType="generate.Category" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="cat_id" keyProperty="catId" parameterType="com.dn.model.Category" useGeneratedKeys="true">
     insert into category
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -88,7 +88,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="generate.Category">
+  <update id="updateByPrimaryKeySelective" parameterType="com.dn.model.Category">
     update category
     <set>
       <if test="name != null">
@@ -118,7 +118,7 @@
     </set>
     where cat_id = #{catId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="generate.Category">
+  <update id="updateByPrimaryKey" parameterType="com.dn.model.Category">
     update category
     set `name` = #{name,jdbcType=CHAR},
       parent_cid = #{parentCid,jdbcType=BIGINT},

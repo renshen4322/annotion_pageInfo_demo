@@ -1,21 +1,20 @@
 package com.dn.controller;
 
 import com.dn.dto.RequestUserDto;
-import com.dn.handler.Encrypt;
+import com.dn.model.User;
+import com.dn.service.UserService;
 import com.dn.util.ExtBeansUtils;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.dn.model.User;
-import com.dn.service.UserService;
-import com.github.pagehelper.PageInfo;
-
 @Controller
 @RequestMapping("/user")
 @Api(tags = {"用户Api文档"})
+
 public class UserController {
 
     @Autowired
