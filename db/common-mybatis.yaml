@@ -1,0 +1,7 @@
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+    cache-enabled: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml,classpath:mapper/ext/*.xml
+  type-handlers-package: com.dn.handler

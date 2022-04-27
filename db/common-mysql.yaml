@@ -1,0 +1,17 @@
+spring: 
+  datasource:   
+    minIdle: 5
+    maxActive: 100
+    initialSize: 10
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 50
+    removeAbandoned: true
+    filters: stat
+    cachePrepStmts: true  # 开启二级缓存
