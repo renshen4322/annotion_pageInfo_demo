@@ -9,7 +9,7 @@ spring:
       # Nacos 服务注册与发现
       discovery:
         server-addr: ${nacos.server-addr}
-        #namespace: ${nacos.namespace}
+        namespace: ${nacos.namespace}  #不带空间会注册到public6
         group: DEFAULT_GROUP
         # 自定义元数据
         metadata:
