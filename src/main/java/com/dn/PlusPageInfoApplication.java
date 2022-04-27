@@ -9,6 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Properties;
 
@@ -21,6 +22,7 @@ public class PlusPageInfoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlusPageInfoApplication.class, args);
+		//System.out.println(new BCryptPasswordEncoder().encode("mark"));
 	}
 
 	//http://localhost:8080/swagger-ui.html#/
