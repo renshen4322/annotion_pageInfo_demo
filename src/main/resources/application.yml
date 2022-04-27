@@ -3,10 +3,21 @@ server:
   servlet:
     context-path: /app
 
-#服务名称
 spring:
   application:
     name: prvider-annotoion-pageInfo
+
+
+#mybatis:
+#  configuration:
+#    mapUnderscoreToCamelCase: true
+#    cache-enabled: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  mapper-locations: classpath:mapper/*.xml,classpath:mapper/ext/*.xml
+#  type-handlers-package: com.dn.handler
+#服务名称
+
+
 #  datasource:
 #    name: mybatisplus
 #    type: com.alibaba.druid.pool.DruidDataSource
@@ -30,13 +41,7 @@ spring:
 #    filters: stat
 #    cachePrepStmts: true  # 开启二级缓存
 #
-#  mybatis:
-#    configuration:
-#      mapUnderscoreToCamelCase: true
-#      cache-enabled: true
-#      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#    mapper-locations: classpath:mapper/*.xml,classpath:mapper/ext/*.xml
-#    type-handlers-package: com.dn.handler
+
 #  pagehelper:
 #    helperDialect: mysql
 #    reasonable: true

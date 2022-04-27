@@ -4,6 +4,7 @@ import com.dn.model.Category;
 import com.dn.service.CategoryService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import java.util.List;
  * @Author: mark
  */
 @RestController
+@RefreshScope
 @RequestMapping("/category")
 @Api(tags = {"分类Api文档"})
 public class CategoryController {

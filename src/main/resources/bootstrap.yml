@@ -9,7 +9,7 @@ spring:
       # Nacos 服务注册与发现
       discovery:
         server-addr: ${nacos.server-addr}
-        namespace: ${nacos.namespace}
+        #namespace: ${nacos.namespace}
         group: DEFAULT_GROUP
         # 自定义元数据
         metadata:
@@ -23,10 +23,10 @@ spring:
         enabled: true
         refresh-enabled: true
         shared-configs:
-          - data-id: common-mybatis.yaml
+          - data-id: common-mysql.yaml
             group: DEFAULT_GROUP
 
-          - data-id: common-redis.yaml
+          - data-id: common-mybatis.yaml
             group: DEFAULT_GROUP
 
           - data-id: common-base.yaml
