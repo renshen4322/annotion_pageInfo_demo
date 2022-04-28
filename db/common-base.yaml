@@ -1,5 +1,5 @@
 nacos:
   server-addr: 192.168.2.102:8848
   username: nacos
-  password: mark
-  namespace: 60ca3fcc-be6c-479e-b54f-cffdbd47e174
+  password: nacos
+  namespace: 79a1b89c-f9b0-4d87-9e3c-6e272467120e

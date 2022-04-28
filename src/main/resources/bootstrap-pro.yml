@@ -5,7 +5,7 @@ spring:
   cloud:
     nacos:
       config:
-        namespace: testd9654d28-0fe4-411a-b7b5-ffbbf471b113
+        namespace: 98595943-36cb-4a36-92f1-80ed229010a9
         file-extension: yaml
         server-addr: 192.168.2.102:8848
         group: DEV_GROUP

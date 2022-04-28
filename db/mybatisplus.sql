@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 50730
  Source Host           : localhost:3306
- Source Schema         : mybatisplus
+ Source Schema         : mybatis_plus
 
  Target Server Type    : MySQL
  Target Server Version : 50730
