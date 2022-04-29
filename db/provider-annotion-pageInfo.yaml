@@ -1,8 +1,8 @@
 spring: 
   datasource:
-    name: mybatisplus
+    name: mybatis_plus
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://192.168.2.101:3306/mybatis_plus?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&&serverTimezone=UTC
+    url: jdbc:mysql://192.168.150.128:3306/mybatis_plus?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&&serverTimezone=UTC
     username: root
     password: gu425006
     driver-class-name: com.mysql.cj.jdbc.Driver
