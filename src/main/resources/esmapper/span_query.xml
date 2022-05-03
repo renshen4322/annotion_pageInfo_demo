@@ -1,0 +1,47 @@
+<properties>
+    <property name="createArticleIndice">
+        <![CDATA[{
+            "settings": {
+                "number_of_shards": 6,
+                "index.refresh_interval": "5s"
+            },
+            "mappings": {
+                "properties": {
+                    "ArticleId":{
+                        "type":"long"
+                    },
+                    "index": {
+                        "type": "text"
+
+                    },
+                    "mainContent": {
+                        "type": "text"
+
+                    }
+                }
+            }
+        }]]>
+    </property>
+
+    <property name="bulkInsertArticleData">
+        <![CDATA[
+            {"index" : {"_index" : "article" }}
+            {"mainContent":"the quick red fox jumps over the sleepy cat"}
+            {"index" : {"_index" : "article" }}
+            {"mainContent":"the quick brown fox jumps over the lazy dog"}
+        ]]>
+    </property>
+
+    <!--测试SpanTermQuery-->
+    <property name="testSpanTermQuery">
+        <![CDATA[{
+            "query": {
+                "span_term": {
+                    "mainContent": {
+                        "value": #[spanTermValue]
+                    }
+                }
+            }
+        }]]>
+    </property>
+</properties>

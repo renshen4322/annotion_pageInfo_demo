@@ -1,52 +1,38 @@
 server:
-  port: 8082
-  servlet:
-    context-path: /app
-
+    port: 8082
+    servlet:
+        context-path: /app
 spring:
-  application:
-    name: prvider-annotoion-pageInfo
-
-
-#mybatis:
-#  configuration:
-#    mapUnderscoreToCamelCase: true
-#    cache-enabled: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#  mapper-locations: classpath:mapper/*.xml,classpath:mapper/ext/*.xml
-#  type-handlers-package: com.dn.handler
-#服务名称
-
-
-#  datasource:
-#    name: mybatisplus
-#    type: com.alibaba.druid.pool.DruidDataSource
-#    url: jdbc:mysql://192.168.2.103:3306/mybatisplus?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&&serverTimezone=UTC
-#    username: root
-#    password: gu425006
-#    driver-class-name: com.mysql.cj.jdbc.Driver #com.mysql.jdbc.Driver
-#    minIdle: 5
-#    maxActive: 100
-#    initialSize: 10
-#    maxWait: 60000
-#    timeBetweenEvictionRunsMillis: 60000
-#    minEvictableIdleTimeMillis: 300000
-#    validationQuery: select 'x'
-#    testWhileIdle: true
-#    testOnBorrow: false
-#    testOnReturn: false
-#    poolPreparedStatements: true
-#    maxPoolPreparedStatementPerConnectionSize: 50
-#    removeAbandoned: true
-#    filters: stat
-#    cachePrepStmts: true  # 开启二级缓存
-#
-
-#  pagehelper:
-#    helperDialect: mysql
-#    reasonable: true
-#    supportMethodsArguments: true
-#    params-count: countSql
-
-
-
+    application:
+        name: prvider-annotoion-pageInfo
+     
+    elasticsearch:
+        bboss:
+            elasticUser: elastic
+            elasticPassword: changeme
+            elasticsearch:
+                rest:
+                    hostNames: 192.168.150.131:9200
+                    ##hostNames: 192.168.150.131:9200,192.168.8.26:9200,192.168.8.27:9200  ##集群地址配置
+                dateFormat: yyyy.MM.dd
+                timeZone: Asia/Shanghai
+                showTemplate: true
+                discoverHost: false
+            dslfile:
+                refreshInterval: -1
+            http:
+                timeoutConnection: 5000
+                timeoutSocket: 5000
+                connectionRequestTimeout: 5000
+                retryTime: 1
+                maxLineLength: -1
+                maxHeaderCount: 200
+                maxTotal: 400
+                defaultMaxPerRoute: 200
+                soReuseAddress: false
+                soKeepAlive: false
+                timeToLive: 3600000
+                keepAlive: 3600000
+                keystore:
+                keyPassword:
+                hostnameVerifier:

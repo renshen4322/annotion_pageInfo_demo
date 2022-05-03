@@ -1,0 +1,10 @@
+<property name="gateway">
+    <![CDATA[
+"gateway":[
+   #[applicationName1],
+   #[applicationName2],
+   timestamp
+
+]}]]>
+</property>
+
