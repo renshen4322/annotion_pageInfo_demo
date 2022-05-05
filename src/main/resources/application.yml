@@ -8,8 +8,8 @@ spring:
      
     elasticsearch:
         bboss:
-            elasticUser: elastic
-            elasticPassword: changeme
+            #elasticUser: elastic
+            #elasticPassword: changeme
             elasticsearch:
                 rest:
                     hostNames: 192.168.150.131:9200

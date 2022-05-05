@@ -99,8 +99,13 @@ public class BBossESStarterTestCase {
         }
     }
     @Test
-    public void deleteIndeice() {
+    public void deleteDemoIndeice() {
         documentCRUD.dropIndice();
+    }
+
+    @Test
+    public void addDemoDocument() {
+        documentCRUD.addDemoDocument();
     }
 
     @Test
@@ -115,10 +120,7 @@ public class BBossESStarterTestCase {
        documentCRUD.dropAndCreateDemoIndice();
     }
 
-    @Test
-    public void addDemoDocument() {
-        documentCRUD.addAndUpdateDocument();
-    }
+
     @Test
     public void updateDemoDocuments(){
         documentCRUD.updateDemoDocuments();

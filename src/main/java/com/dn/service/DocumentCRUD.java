@@ -3,11 +3,15 @@ package com.dn.service;
 import com.alibaba.fastjson.JSON;
 import com.dn.dto.DemoSearchResult;
 import com.dn.model.Demo;
+import lombok.extern.slf4j.Slf4j;
 import org.frameworkset.elasticsearch.ElasticSearchException;
 import org.frameworkset.elasticsearch.ElasticSearchHelper;
 import org.frameworkset.elasticsearch.boot.BBossESStarter;
 import org.frameworkset.elasticsearch.client.ClientInterface;
+import org.frameworkset.elasticsearch.client.ClientUtil;
 import org.frameworkset.elasticsearch.entity.ESDatas;
+import org.frameworkset.elasticsearch.scroll.HandlerInfo;
+import org.frameworkset.elasticsearch.scroll.ScrollHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,7 @@ import java.util.*;
  * @Author: mark
  */
 @Service
+@Slf4j
 public class DocumentCRUD {
     private final Logger logger = LoggerFactory.getLogger(DocumentCRUD.class);
     @Autowired
@@ -40,7 +45,7 @@ public class DocumentCRUD {
     private ClientInterface clientInterface;//bboss dsl工具
 
     public void dropIndice() {
-        ClientInterface clientUtil = bbossESStarter.getConfigRestClient(mappath2);
+        ClientInterface clientUtil = bbossESStarter.getConfigRestClient(mappath);
 
         //To determine whether the indice demo exists, it returns true if it exists and false if it does not
         boolean exist = clientUtil.existIndiceType("demo", "demo");
@@ -90,7 +95,7 @@ public class DocumentCRUD {
 
     }
 
-    public void addAndUpdateDocument() {
+    public void addDemoDocument() {
         //Build a create/modify/get/delete document client object, single instance multi-thread security
         ClientInterface clientUtil = bbossESStarter.getRestClient();
         //Build an object as index document
@@ -152,8 +157,6 @@ public class DocumentCRUD {
         //Execute update and force refresh
         String response = clientUtil.updateDocument("demo",//index name
                 "demo", "j22BiIABPEdR77RHLp1m", demo);
-
-
         //Get the modified document object according to the document id and return the json message string
         response = clientUtil.getDocument("demo",//indice name
                 "demo",//idnex type
@@ -163,13 +166,28 @@ public class DocumentCRUD {
 
     }
 
+    public void delTestDemo() {
+        ClientInterface clientUtil = bbossESStarter.getConfigRestClient("esmapper/demo.xml");
+
+        //To determine whether the indice demo exists, it returns true if it exists and false if it does not
+        boolean exist = clientUtil.existIndice("test_demo");
+
+        //Delete mapping if the indice demo already exists
+        if (exist) {
+            String r = clientUtil.dropIndice("test_demo");
+            logger.debug("clientUtil.dropIndice(\"test_demo\") response:" + r);
+
+        }
+    }
+
+
     public void testBulkAddDocuments() {
         //创建批量创建文档的客户端对象，单实例多线程安全
         ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
         List<Demo> demos = new ArrayList<Demo>();
         Demo demo = null;
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 20002; i++) {
+        for (int i = 1; i <= 2000; i++) {
             demo = new Demo();//定义第一个对象
             demo.setDemoId((long) i);
             demo.setAgentStartTime(new Date());
@@ -186,50 +204,172 @@ public class DocumentCRUD {
             demos.add(demo);//添加第一个对象到list中
         }
         //批量添加或者修改2万个文档，将两个对象添加到索引表demo中，批量添加2万条记录耗时1.8s，
-        String response = clientUtil.addDocuments("demo",//索引表
+        String response = clientUtil.addDocuments("test_demo",//索引表
                 "demo",//索引类型
                 demos, "refresh=true");//为了测试效果,启用强制刷新机制，实际线上环境去掉最后一个参数"refresh=true"
         long end = System.currentTimeMillis();
-        System.out.println("BulkAdd 20002 Documents elapsed:" + (end - start) + "毫秒");
+        System.out.println("BulkAdd 2000 Documents elapsed:" + (end - start) + "毫秒");
+
         start = System.currentTimeMillis();
-        //scroll查询2万条记录：0.6s，参考文档：https://my.oschina.net/bboss/blog/1942562
-        ESDatas<Demo> datas = clientUtil.scroll("demo/_search", "{\"size\":1000,\"query\": {\"match_all\": {}}}", "1m", Demo.class);
+        //scroll查询2w条记录：0.6s，参考文档：https://my.oschina.net/bboss/blog/1942562
+        ESDatas<Demo> datas = clientUtil.scroll("test_demo/_search", "{\"size\":100,\"query\": {\"match_all\": {}}}", "1m", Demo.class);
         end = System.currentTimeMillis();
-        System.out.println("scroll SearchAll 20002 Documents elapsed:" + (end - start) + "毫秒");
+        System.out.println("scroll SearchAll 2000 Documents test_demo elapsed:" + (end - start) + "毫秒");
+
+    }
+
+
+    public void testSimleScrollAPI(){
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
+        //scroll分页检索
+
+        Map params = new HashMap();
+        params.put("size", 500);//每页10000条记录
+        //scroll上下文有效期1分钟,每次scroll检索的结果都会合并到总得结果集中；数据量大时存在oom内存溢出风险，大数据量时可以采用handler函数来处理每次scroll检索的结果(后面介绍)
+        ESDatas<Map> response = clientUtil.scroll("test_demo/_search","scrollQuery","1m",params,Map.class);
+        List<Map> datas = response.getDatas();
+        long realTotalSize = datas.size();
+        long totalSize = response.getTotalSize();
+        log.info("test_demo===="+datas.get(0).values());
+        logger.info("totalSize:"+totalSize);
+        logger.info("realTotalSize:"+realTotalSize);
+        logger.info("countAll:"+clientUtil.countAll("test_demo"));
+    }
+
+    //串行
+    public void testSimleScrollAPIHandler(){
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
+        //scroll分页检索
+
+        Map params = new HashMap();
+        params.put("size", 500);//每页5000条记录
+        //采用自定义handler函数处理每个scroll的结果集后，response中只会包含总记录数，不会包含记录集合
+        //scroll上下文有效期1分钟；大数据量时可以采用handler函数来处理每次scroll检索的结果，规避数据量大时存在的oom内存溢出风险
+        ESDatas<Map> response = clientUtil.scroll("test_demo/_search", "scrollQuery", "1m", params, Map.class, new ScrollHandler<Map>() {
+            @Override
+            public void handle(ESDatas<Map> response, HandlerInfo handlerInfo) throws Exception {//自己处理每次scroll的结果
+                List<Map> datas = response.getDatas();
+                long totalSize = response.getTotalSize();
+                logger.info("totalSize:"+totalSize+",datas.size:"+datas.size());
+            }
+        });
+
+       logger.info("response realzie:"+response.getTotalSize());
+
+    }
+
+   //并行
+    public void testSimleScrollParallelAPIHandler(){
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
+        //scroll分页检索
+        Map params = new HashMap();
+        params.put("size", 500);//每页5000条记录
+        //采用自定义handler函数处理每个scroll的结果集后，response中只会包含总记录数，不会包含记录集合
+        //scroll上下文有效期1分钟
+        ESDatas<Map> response = clientUtil.scrollParallel("test_demo/_search", "scrollQuery", "1m", params, Map.class, new ScrollHandler<Map>() {
+            @Override
+            public void handle(ESDatas<Map> response, HandlerInfo handlerInfo) throws Exception {//自己处理每次scroll的结果
+                List<Map> datas = response.getDatas();
+                long totalSize = response.getTotalSize();
+                System.out.println("totalSize:"+totalSize+",datas.size:"+datas.size());
+            }
+        });
+
+        System.out.println("response realzie:"+response.getTotalSize());
+
+    }
+
+    /**
+     * 串行方式执行slice scroll操作
+     */
+    public void testSimpleSliceScrollApi() {
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
+
+        //scroll slice分页检索,max对应并行度，一般设置为与索引表的shards数一致
+        int max = 6;
+
+        Map params = new HashMap();
+        params.put("sliceMax", max);//建议不要大于索引表的shards数
+        params.put("size", 100);//每页100条记录
+        //scroll上下文有效期1分钟,每次scroll检索的结果都会合并到总得结果集中；数据量大时存在oom内存溢出风险，大数据量时可以采用handler函数来处理每次slice scroll检索的结果(后面介绍)
+        ESDatas<Map> sliceResponse = clientUtil.scrollSlice("test_demo/_search",
+                "scrollSliceQuery", params,"1m",Map.class);//串行；如果数据量大，建议采用并行方式来执行
+        logger.info("totalSize:"+sliceResponse.getTotalSize());
+        logger.info("realSize size:"+sliceResponse.getDatas().size());
+        log.info("Data===="+sliceResponse.getDatas().get(0));
+    }
+
+    /**
+     * 并行方式执行slice scroll操作
+     */
+    public void testSimpleSliceScrollApiParral() {
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
+
+        //scroll slice分页检索,max对应并行度，一般设置为与索引表的shards数一致
+        int max = 6;
+
+        Map params = new HashMap();
+        params.put("sliceMax", max);//这里设置6个slice，建议不要大于索引表的shards数，必须使用sliceMax作为变量名称
+        params.put("size", 100);//每页100条记录
+        //scroll上下文有效期2分钟,每次scroll检索的结果都会合并到总得结果集中；数据量大时存在oom内存溢出风险，大数据量时可以采用handler函数来处理每次scroll检索的结果(后面介绍)
+        ESDatas<Map> sliceResponse = clientUtil.scrollSliceParallel("test_demo/_search",
+                "scrollSliceQuery", params,"2m",Map.class);//表示并行，会从slice scroll线程池中申请sliceMax个线程来并行执行slice scroll检索操作，大数据量多个shared分片的情况下建议采用并行模式
+        logger.info("totalSize:"+sliceResponse.getTotalSize());
+        logger.info("realSize size:"+sliceResponse.getDatas().size());
+        logger.info(""+sliceResponse.getDatas().get(1));
+
+    }
+
+    /**
+     * 串行方式执行slice scroll Handler操作
+     */
+    public void testSimpleSliceScrollApiHandler() {
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
+        //scroll slice分页检索,max对应并行度，一般设置为与索引表的shards数一致
+        int max = 6;
+
+        Map params = new HashMap();
+        params.put("sliceMax", max);//这里设置6个slice，建议不要大于索引表的shards数，必须使用sliceMax作为变量名称
+        params.put("size", 1000);//每页1000条记录
+        //采用自定义handler函数处理每个slice scroll的结果集后，sliceResponse中只会包含总记录数，不会包含记录集合
+        //scroll上下文有效期1分钟,大数据量时可以采用handler函数来处理每次scroll检索的结果，规避数据量大时存在的oom内存溢出风险
+        ESDatas<Map> sliceResponse = clientUtil.scrollSlice("test_demo/_search",
+                "scrollSliceQuery", params,"1m",Map.class, new ScrollHandler<Map>() {
+                    @Override
+                    public void handle(ESDatas<Map> response, HandlerInfo handlerInfo) throws Exception {//自己处理每次scroll的结果
+                        List<Map> datas = response.getDatas();
+                        long totalSize = response.getTotalSize();
+                        log.info("totalSize:"+totalSize+",datas.size:"+datas.size());
+                    }
+                });//串行，如果数据量大建议采用并行模式
+        long totalSize = sliceResponse.getTotalSize();
+        log.info("=====totalSize:"+totalSize);
+    }
+    /**
+     * 并行方式执行slice scroll Handler操作
+     */
+    public void testSimpleSliceScrollApiParralHandler() {
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
+        //scroll slice分页检索,max对应并行度，一般设置为与索引表的shards数一致
         int max = 6;
         Map params = new HashMap();
-        params.put("sliceMax", max);//最多6个slice，不能大于share数
+        params.put("sliceMax", max);//这里设置6个slice，建议不要大于索引表的shards数，必须使用sliceMax作为变量名称
         params.put("size", 1000);//每页1000条记录
-
-        datas = clientUtil.scrollSlice("demo/_search", "scrollSliceQuery", params, "1m", Demo.class);
-        //scroll上下文有效期1分钟
-        //scrollSlice 并行查询2万条记录：0.1s，参考文档：https://my.oschina.net/bboss/blog/1942562
-        start = System.currentTimeMillis();
-        datas = clientUtil.scrollSliceParallel("demo/_search", "scrollSliceQuery", params, "1m", Demo.class);
-        end = System.currentTimeMillis();
-        System.out.println("scrollSlice SearchAll 20002 Documents elapsed:" + (end - start) + "毫秒");
-        if (datas != null) {
-            System.out.println("scrollSlice SearchAll datas.getTotalSize():" + datas.getTotalSize());
-            if (datas.getDatas() != null) {
-                System.out.println("scrollSlice SearchAll datas.getDatas().size():" + datas.getDatas().size());
-            }
-        }
-        long count = clientUtil.countAll("demo");
-
-        System.out.println("addDocuments-------------------------" + count);
-        //System.out.println(response);
-        //获取第一个文档
-        response = clientUtil.getDocument("demo",//索引表
-                "demo",//索引类型
-                "2");//w
-//    System.out.println("getDocument-------------------------");
-//    System.out.println(response);
-        //获取第二个文档
-        demo = clientUtil.getDocument("demo",//索引表
-                "demo",//索引类型
-                "3",//文档id
-                Demo.class);
+        //采用自定义handler函数处理每个slice scroll的结果集后，sliceResponse中只会包含总记录数，不会包含记录集合
+        //scroll上下文有效期1分钟,大数据量时可以采用handler函数来处理每次scroll检索的结果，规避数据量大时存在的oom内存溢出风险
+        ESDatas<Map> sliceResponse = clientUtil.scrollSliceParallel("test_demo/_search",
+                "scrollSliceQuery", params,"1m",Map.class, new ScrollHandler<Map>() {
+                    @Override
+                    public void handle(ESDatas<Map> response, HandlerInfo handlerInfo) throws Exception {//自己处理每次scroll的结果,注意结果是异步检索的
+                        List<Map> datas = response.getDatas();
+                        long totalSize = response.getTotalSize();
+                       log.info("totalSize:"+totalSize+",datas.size:"+datas.size());
+                    }
+                });//表示并行，会从slice scroll线程池中申请sliceMax个线程来并行执行slice scroll检索操作，大数据量多个shared分片的情况下建议采用并行模式
+        long totalSize = sliceResponse.getTotalSize();
+        log.info("totalSize:"+totalSize);
     }
+
 
     public void deleteDocuments() {
         //Build a create/modify/get/delete document client object, single instance multi-thread security
@@ -240,9 +380,7 @@ public class DocumentCRUD {
                 new String[]{"2", "3"});//Batch delete document ids
     }
 
-    /**
-     * Use slice parallel scoll query all documents of indice demo by 2 thread tasks. DEFAULT_FETCHSIZE is 5000
-     */
+
     public void searchDemoByDocumentId() {
         ClientInterface clientUtil = bbossESStarter.getRestClient();
         // ESDatas<Demo> esDatas = clientUtil.searchAllParallel("demo", Demo.class, 2);
