@@ -40,7 +40,7 @@ public class DocumentCRUD {
 
     private final String mappath2 = "esmapper/gateway.xml";
 
-    private ClientInterface clientInterface;//bboss dsl工具
+    private ClientInterface clientInterface;
 
     public void dropDemoIndice() {
         ClientInterface clientUtil = bbossESStarter.getConfigRestClient(mappath);
