@@ -81,9 +81,7 @@ public class SQLPagineTest {
     @Test
     public void testObjectListQuery() {
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-
         SQLResult<Demo> sqlResult = clientUtil.fetchQuery(Demo.class, "{\"query\": \"SELECT * FROM test_demo \",\"fetch_size\": 500}");
-
         do {
             List<Demo> datas = sqlResult.getDatas();
             if (datas == null || datas.size() == 0) {
@@ -95,7 +93,6 @@ public class SQLPagineTest {
             }
 
         } while (true);
-
 
     }
 
