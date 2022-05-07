@@ -1,7 +1,7 @@
 package com.dn;
 
 import com.alibaba.fastjson.JSON;
-import com.tinge.xingchao.xcelasticsearch.entity.Demo;
+import com.dn.model.Demo;
 import lombok.extern.slf4j.Slf4j;
 import org.frameworkset.elasticsearch.ElasticSearchHelper;
 import org.frameworkset.elasticsearch.client.ClientInterface;

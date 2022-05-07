@@ -1,7 +1,7 @@
 package com.dn;
 
 
-import com.tinge.xingchao.xcelasticsearch.service.DocumentCRUD;
+import com.dn.service.DocumentCRUD;
 import lombok.extern.slf4j.Slf4j;
 import org.frameworkset.elasticsearch.ElasticSearchException;
 import org.frameworkset.elasticsearch.ElasticSearchHelper;
