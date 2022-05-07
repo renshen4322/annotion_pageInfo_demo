@@ -67,26 +67,21 @@
             "explain":true
         }]]>
     </property>
-
-
     <property name="sqlQuery">
         <![CDATA[
          {"query": "SELECT * FROM demo where demoId=#[demoId] and name='#[name,quoted=false]'"} ##加上quoted=false属性，指示框架不要为字符串加""号，因为sql需要''号
         ]]>
     </property>
-
     <property name="sqlQueryByDemoId">
         <![CDATA[
          {"query": "SELECT * FROM demo where demoId=#[demoId] "} ##加上quoted=false属性，指示框架不要为字符串加""号，因为sql需要''号
         ]]>
     </property>
-
     <property name="sqlQueryByStatus">
         <![CDATA[
          {"query": "SELECT * FROM demo where contrastStatus=#[status] "} ##加上quoted=false属性，指示框架不要为字符串加""号，因为sql需要''号
         ]]>
     </property>
-
     <property name="sqlPagineQuery">
         <![CDATA[
          {

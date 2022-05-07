@@ -34,9 +34,9 @@ public class BBossESSqlOrmTest {
      * 代码中的sql检索，返回Map类型集合，亦可以返回自定义的对象集合
      */
     @Test
-    public void testDemoQuery(){
+    public void testDemoQuery() {
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-        List<Map> json = clientUtil.sql(Map.class,"{\"query\": \"SELECT * FROM demo where demoId=1 \"}");
+        List<Map> json = clientUtil.sql(Map.class, "{\"query\": \"SELECT * FROM demo where demoId=1 \"}");
         log.info(JSON.toJSONString(json));
     }
 
@@ -44,23 +44,23 @@ public class BBossESSqlOrmTest {
      * 代码中的sql检索，返回Map类型集合，亦可以返回自定义的对象集合
      */
     @Test
-    public void testMapQuery(){
+    public void testMapQuery() {
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-        List<Map> json = clientUtil.sql(Map.class,"{\"query\": \"SELECT * FROM test_demo limit 5\"}");
-       log.info(JSON.toJSONString(json));
+        List<Map> json = clientUtil.sql(Map.class, "{\"query\": \"SELECT * FROM test_demo limit 5\"}");
+        log.info(JSON.toJSONString(json));
     }
 
     /**
      * 配置文件中的sql dsl检索,返回Map类型对象，亦可以返回自定义的对象
      */
     @Test
-    public void testMapObjectSQLQueryFromDSL(){
+    public void testMapObjectSQLQueryFromDSL() {
         ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/demo.xml");//初始化一个加载sql配置文件的es客户端接口
         //设置sql查询的参数
         Map params = new HashMap();
-        params.put("demoId",1);
-        params.put("name","mark");
-        Map json = clientUtil.sqlObject(Map.class,"sqlQuery",params);
+        params.put("demoId", 1);
+        params.put("name", "mark");
+        Map json = clientUtil.sqlObject(Map.class, "sqlQuery", params);
         log.info(JSON.toJSONString(json));
 
     }
@@ -69,12 +69,12 @@ public class BBossESSqlOrmTest {
      * 配置文件中的sql dsl检索,返回Map类型对象，亦可以返回自定义的对象
      */
     @Test
-    public void testMapObjectSQLQueryByStatus(){
+    public void testMapObjectSQLQueryByStatus() {
         ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/demo.xml");//初始化一个加载sql配置文件的es客户端接口
         //设置sql查询的参数
         Map params = new HashMap();
-        params.put("demoId",2);
-        Map json = clientUtil.sqlObject(Map.class,"sqlQueryByDemoId",params);
+        params.put("demoId", 2);
+        Map json = clientUtil.sqlObject(Map.class, "sqlQueryByDemoId", params);
         log.info(JSON.toJSONString(json));
 
     }
@@ -83,9 +83,9 @@ public class BBossESSqlOrmTest {
      * 代码中的sql检索，返回DocObject 类型集合
      */
     @Test
-    public void testObjectListQuery(){
+    public void testObjectListQuery() {
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-        List<Demo> json = clientUtil.sql(Demo.class,"{\"query\": \"SELECT * FROM demo\"}");
+        List<Demo> json = clientUtil.sql(Demo.class, "{\"query\": \"SELECT * FROM demo\"}");
         System.out.println(json);
     }
 
@@ -93,13 +93,13 @@ public class BBossESSqlOrmTest {
      * 配置文件中的sql dsl检索,返回DocObject 类型集合
      */
     @Test
-    public void testObjectSQLQueryFromDSL(){
-        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/Demo.xml");//初始化一个加载sql配置文件的es客户端接口
+    public void testObjectSQLQueryFromDSL() {
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/demo.xml");//初始化一个加载sql配置文件的es客户端接口
         //设置sql查询的参数
         Map params = new HashMap();
-        params.put("status",2);
-        List<Demo> json = clientUtil.sql(Demo.class,"sqlQueryByStatus",params);
-        System.out.println(json.size()+"=="+json);
+        params.put("status", 2);
+        List<Demo> json = clientUtil.sql(Demo.class, "sqlQueryByStatus", params);
+        System.out.println(json.size() + "== " + json);
 
     }
 
@@ -107,9 +107,9 @@ public class BBossESSqlOrmTest {
      * 代码中的sql检索，返回DocObject 类型对象
      */
     @Test
-    public void testObjectQuery(){
+    public void testObjectQuery() {
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-        Demo json = clientUtil.sqlObject(Demo.class,"{\"query\": \"SELECT * FROM demo where demoId = 1\"}");
+        Demo json = clientUtil.sqlObject(Demo.class, "{\"query\": \"SELECT * FROM demo where demoId = 1\"}");
         System.out.println(json);
     }
 
@@ -118,7 +118,7 @@ public class BBossESSqlOrmTest {
      * http
      */
     @Test
-    public void testTranslate(){
+    public void testTranslate() {
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
         String json = clientUtil.executeHttp("/_xpack/sql/translate",
                 "{\"query\": \"SELECT * FROM demo limit 5\",\"fetch_size\": 5}",
@@ -132,13 +132,13 @@ public class BBossESSqlOrmTest {
      * 低阶的检索方法
      */
     @Test
-    public void testSQLRestResponse(){
+    public void testSQLRestResponse() {
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
         SQLRestResponse sqlRestResponse = clientUtil.executeHttp("/_xpack/sql",
                 "{\"query\": \"SELECT * FROM demo where demoId = 1\"}",
                 ClientInterface.HTTP_POST,
                 new SQLRestResponseHandler());
-       log.info(JSON.toJSONString(sqlRestResponse));
+        log.info(JSON.toJSONString(sqlRestResponse));
     }
 
 }
