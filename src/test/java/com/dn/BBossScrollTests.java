@@ -3,10 +3,9 @@ package com.dn;
 import com.dn.service.DocumentCRUD;
 import lombok.extern.slf4j.Slf4j;
 import org.frameworkset.elasticsearch.ElasticSearchHelper;
-import org.frameworkset.elasticsearch.boot.BBossESStarter;
 import org.frameworkset.elasticsearch.client.ClientInterface;
 import org.frameworkset.elasticsearch.entity.ESDatas;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,35 +14,36 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Map;
 
-/**
- * ClassName:BBossDocmentTest
- * Package:com.dn
- * Description:
- *
- * @Date:2022/5/3 18:11
- * @Author: mark
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
-public class BBossDocmentTest {
+class BBossScrollTests {
+
+    @Test
+    void contextLoads() {
+    }
 
     @Autowired
     DocumentCRUD documentCRUD;
 
     @Test
     public void delTestDemo(){
-       documentCRUD.delTestDemo();
+        documentCRUD.delTestDemo();
     }
 
+    /**
+     * 创建批量创建文档的客户端对象，单实例多线程安全
+     */
     @Test
     public void testBulkAddDocuments(){
         documentCRUD.testBulkAddDocuments();
     }
+
     @Test
     public void testSimleScrollAPI(){
         documentCRUD.testSimleScrollAPI();
     }
+
     @Test
     public void testSimleScrollAPIHandler(){
         documentCRUD.testSimleScrollAPIHandler();
@@ -74,7 +74,7 @@ public class BBossDocmentTest {
      */
     @Test
     public void testSimpleSliceScrollApiHandler() {
-      documentCRUD.testSimpleSliceScrollApiHandler();
+        documentCRUD.testSimpleSliceScrollApiHandler();
     }
     /**
      * 并行方式执行slice scroll Handler操作
@@ -92,11 +92,12 @@ public class BBossDocmentTest {
         List<Map> dataList = esDatas.getDatas();
         log.info("TotalSize:"+esDatas.getTotalSize());
         if(dataList != null) {
-           log.info("dataList.size:" + dataList.size());
+            log.info("dataList.size:" + dataList.size());
         }
         else
         {
             log.info("dataList.size:0");
         }
     }
+
 }

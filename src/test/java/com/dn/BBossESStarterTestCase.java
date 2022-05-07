@@ -1,6 +1,7 @@
 package com.dn;
 
-import com.dn.service.DocumentCRUD;
+
+import com.tinge.xingchao.xcelasticsearch.service.DocumentCRUD;
 import lombok.extern.slf4j.Slf4j;
 import org.frameworkset.elasticsearch.ElasticSearchException;
 import org.frameworkset.elasticsearch.ElasticSearchHelper;
@@ -24,7 +25,7 @@ import java.util.Map;
 /**
  * ClassName:BBossESStarterTestCase
  * Package:com.dn
- * Description:
+ * * Description: 增删改
  *
  * @Date:2022/5/1 16:58
  * @Author: mark
@@ -76,6 +77,7 @@ public class BBossESStarterTestCase {
         long recipeCount = clientInterface.countAll("article");
         logger.info("article 当前条数：{}", recipeCount);
     }
+
     @Test
     public void testSpanTermQuery() {
         try {
@@ -98,9 +100,10 @@ public class BBossESStarterTestCase {
             logger.error("testSpanTermQuery 执行失败 ", e);
         }
     }
+
     @Test
     public void deleteDemoIndeice() {
-        documentCRUD.dropIndice();
+        documentCRUD.dropDemoIndice();
     }
 
     @Test
@@ -113,10 +116,8 @@ public class BBossESStarterTestCase {
         documentCRUD.SearchDocumentId();
     }
 
-
-
     @Test
-    public void testCreateIndice(){
+    public void testCreateDemoIndice(){
        documentCRUD.dropAndCreateDemoIndice();
     }
 
@@ -168,41 +169,6 @@ public class BBossESStarterTestCase {
 
     }
 
-    @Test
-    public void testCRUD() throws Exception {
 
-//        //删除/创建文档索引表
-//        documentCRUD.testCreateIndice();
-//        //添加/修改单个文档
-//
-//        documentCRUD.testAddAndUpdateDocument();
-//        //批量添加文档
-//        documentCRUD.testBulkAddDocument();
-//        //检索文档
-//        documentCRUD.testSearch();
-//        //批量修改文档
-//        documentCRUD.testBulkUpdateDocument();
-//
-//        //检索批量修改后的文档
-//        documentCRUD.testSearch();
-//        //带list复杂参数的文档检索操作
-//        documentCRUD.testSearchArray();
-//        //带from/size分页操作的文档检索操作
-//        documentCRUD.testPagineSearch();
-//        //带sourcefilter的文档检索操作
-//        documentCRUD.testSearchSourceFilter();
-//
-//        documentCRUD.updateDemoIndice();
-//        documentCRUD.testBulkAddDocuments();
-    }
-
-    @Test
-    public void testPerformaceCRUD() throws Exception {
-
-//        //删除/创建文档索引表
-//        documentCRUD.testCreateIndice();
-//
-//        documentCRUD.testBulkAddDocuments();
-    }
 
 }

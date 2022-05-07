@@ -8,7 +8,6 @@ import org.frameworkset.elasticsearch.ElasticSearchException;
 import org.frameworkset.elasticsearch.ElasticSearchHelper;
 import org.frameworkset.elasticsearch.boot.BBossESStarter;
 import org.frameworkset.elasticsearch.client.ClientInterface;
-import org.frameworkset.elasticsearch.client.ClientUtil;
 import org.frameworkset.elasticsearch.entity.ESDatas;
 import org.frameworkset.elasticsearch.scroll.HandlerInfo;
 import org.frameworkset.elasticsearch.scroll.ScrollHandler;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -44,7 +42,7 @@ public class DocumentCRUD {
 
     private ClientInterface clientInterface;//bboss dsl工具
 
-    public void dropIndice() {
+    public void dropDemoIndice() {
         ClientInterface clientUtil = bbossESStarter.getConfigRestClient(mappath);
 
         //To determine whether the indice demo exists, it returns true if it exists and false if it does not
@@ -139,6 +137,73 @@ public class DocumentCRUD {
                 Demo.class);
         logger.info(JSON.toJSONString(demo));
 
+        demo = new Demo();
+        demo.setDemoId(3L);//Specify the document id, the unique identity, and mark with the @ESId annotation. If the demoId already exists, modify the document; otherwise, add the document
+        demo.setApplicationName("demo3");
+        demo.setContentBody("this is content body3");
+        demo.setName("李雪主");
+        demo.setOrderId("NFZF15045871807281445364228");
+        demo.setContrastStatus(2);
+        demo.setAgentStartTime(new Date());
+        demo.setAgentStartTimeZh(new Date());
+
+        //Add the document and force refresh
+        response = clientUtil.addDocument("demo",//indice name
+                "demo",//idnex type
+                demo, "refresh=true");
+
+        //Get the document object according to the document id, and return the Demo object
+        demo = clientUtil.getDocument("demo",//indice name
+                "demo",//idnex type
+                "3",//document id
+                Demo.class);
+        logger.info(JSON.toJSONString(demo));
+
+
+        demo = new Demo();
+        demo.setDemoId(4L);//Specify the document id, the unique identity, and mark with the @ESId annotation. If the demoId already exists, modify the document; otherwise, add the document
+        demo.setApplicationName("demo4");
+        demo.setContentBody("this is content body4");
+        demo.setName("李天一");
+        demo.setOrderId("NFZF15045871807281445364228");
+        demo.setContrastStatus(2);
+        demo.setAgentStartTime(new Date());
+        demo.setAgentStartTimeZh(new Date());
+
+        //Add the document and force refresh
+        response = clientUtil.addDocument("demo",//indice name
+                "demo",//idnex type
+                demo, "refresh=true");
+
+        //Get the document object according to the document id, and return the Demo object
+        demo = clientUtil.getDocument("demo",//indice name
+                "demo",//idnex type
+                "4",//document id
+                Demo.class);
+        logger.info(JSON.toJSONString(demo));
+
+        demo = new Demo();
+        demo.setDemoId(5L);//Specify the document id, the unique identity, and mark with the @ESId annotation. If the demoId already exists, modify the document; otherwise, add the document
+        demo.setApplicationName("demo5");
+        demo.setContentBody("this is content body5");
+        demo.setName("程明");
+        demo.setOrderId("NFZF15045871807281445364228");
+        demo.setContrastStatus(1);
+        demo.setAgentStartTime(new Date());
+        demo.setAgentStartTimeZh(new Date());
+
+        //Add the document and force refresh
+        response = clientUtil.addDocument("demo",//indice name
+                "demo",//idnex type
+                demo, "refresh=true");
+
+        //Get the document object according to the document id, and return the Demo object
+        demo = clientUtil.getDocument("demo",//indice name
+                "demo",//idnex type
+                "5",//document id
+                Demo.class);
+        logger.info(JSON.toJSONString(demo));
+
 
     }
 
@@ -168,26 +233,25 @@ public class DocumentCRUD {
 
     public void delTestDemo() {
         ClientInterface clientUtil = bbossESStarter.getConfigRestClient("esmapper/demo.xml");
-
         //To determine whether the indice demo exists, it returns true if it exists and false if it does not
         boolean exist = clientUtil.existIndice("test_demo");
-
         //Delete mapping if the indice demo already exists
         if (exist) {
             String r = clientUtil.dropIndice("test_demo");
             logger.debug("clientUtil.dropIndice(\"test_demo\") response:" + r);
-
         }
     }
 
-
+    /**
+     * 创建批量创建文档的客户端对象，单实例多线程安全
+     */
     public void testBulkAddDocuments() {
         //创建批量创建文档的客户端对象，单实例多线程安全
         ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
         List<Demo> demos = new ArrayList<Demo>();
         Demo demo = null;
         long start = System.currentTimeMillis();
-        for (int i = 1; i <= 2000; i++) {
+        for (int i = 1; i <= 5000; i++) {
             demo = new Demo();//定义第一个对象
             demo.setDemoId((long) i);
             demo.setAgentStartTime(new Date());
@@ -198,7 +262,6 @@ public class DocumentCRUD {
             } else {
                 demo.setName("张学友不喜欢唱歌" + i);
             }
-
             demo.setOrderId("NFZF15045871807281445364228");
             demo.setContrastStatus(2);
             demos.add(demo);//添加第一个对象到list中
@@ -209,7 +272,6 @@ public class DocumentCRUD {
                 demos, "refresh=true");//为了测试效果,启用强制刷新机制，实际线上环境去掉最后一个参数"refresh=true"
         long end = System.currentTimeMillis();
         System.out.println("BulkAdd 2000 Documents elapsed:" + (end - start) + "毫秒");
-
         start = System.currentTimeMillis();
         //scroll查询2w条记录：0.6s，参考文档：https://my.oschina.net/bboss/blog/1942562
         ESDatas<Demo> datas = clientUtil.scroll("test_demo/_search", "{\"size\":100,\"query\": {\"match_all\": {}}}", "1m", Demo.class);
@@ -218,11 +280,9 @@ public class DocumentCRUD {
 
     }
 
-
     public void testSimleScrollAPI(){
         ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
         //scroll分页检索
-
         Map params = new HashMap();
         params.put("size", 500);//每页10000条记录
         //scroll上下文有效期1分钟,每次scroll检索的结果都会合并到总得结果集中；数据量大时存在oom内存溢出风险，大数据量时可以采用handler函数来处理每次scroll检索的结果(后面介绍)
