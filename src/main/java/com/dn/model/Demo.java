@@ -2,7 +2,7 @@ package com.dn.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.frameworkset.orm.annotation.Column;
-import com.frameworkset.orm.annotation.PrimaryKey;
+import com.frameworkset.orm.annotation.ESId;
 import lombok.Data;
 import org.frameworkset.elasticsearch.entity.ESBaseData;
 
@@ -18,7 +18,9 @@ import java.util.Date;
  */
 @Data
 public class Demo extends ESBaseData {
-    @PrimaryKey
+    //@PrimaryKey
+    //设定文档标识字段
+    @ESId(readSet = true,persistent = false)
     private Long demoId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(dataformat = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -32,4 +34,5 @@ public class Demo extends ESBaseData {
     private String orderId;
     private Integer contrastStatus;
 
+    private Object dynamicPriceTemplate;
 }

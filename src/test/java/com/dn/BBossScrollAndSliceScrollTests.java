@@ -17,7 +17,7 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
-class BBossScrollTests {
+class BBossScrollAndSliceScrollTests {
 
     @Test
     void contextLoads() {

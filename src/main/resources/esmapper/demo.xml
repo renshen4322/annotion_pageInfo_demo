@@ -68,6 +68,134 @@
         }]]>
     </property>
 
+    <property name="scriptPianduan">
+        <![CDATA[
+            "params": {
+              "last": #[last],
+              "nick": #[nick],
+              "goodsId": #[dynamicPriceTemplate->goodsId],
+              "rules":[
+                   #foreach($rule in $dynamicPriceTemplate.rules)
+                       #if($velocityCount > 0),#end
+                   {
 
+                        "ruleId": "$rule.ruleId",
+                        "ruleCount": $rule.ruleCount,
+                        "ruleExist":  $rule.ruleExist
+
+                    }
+                   #end
+              ]
+            }
+        ]]>
+    </property>
+    <property name="scriptDsl">
+        <![CDATA[{
+          "script": {
+            "lang": "painless",
+            "source": @"""
+              ctx._source.last = params.last;
+              ctx._source.nick = params.nick;
+              ctx._source.rules = params.rules
+            """,
+            @{scriptPianduan}
+          }
+        }]]>
+    </property>
+    <property name="scriptPianduan2">
+        <![CDATA[
+            "params": {
+              "last": #[last],
+              "nick": #[nick],
+              "goodsId": #[dynamicPriceTemplate->goodsId],
+              "rules":[
+                   #foreach($rule in $dynamicPriceTemplate.rules)
+                       #[dynamicPriceTemplate->rules[$velocityCount],serialJson=true] ## 通过属性serialJson指示框架直接将对象序列化为json数据
+                        #if($velocityCount != ($dynamicPriceTemplate.rules.size() - 1)),#end
+                   #end
+              ]
+            }
+        ]]>
+    </property>
+    <property name="scriptDslByQuery">
+        <![CDATA[{
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "term": {
+                    "_id": #[id]
+                  }
+                }
+              ]
+            }
+          },
+          "script": {
+            "lang": "painless",
+            "source": @"""
+              ctx._source.last = params.last;
+              ctx._source.lastSpecial = "#[last,quoted=false]";
+              ctx._source.nick = params.nick;
+              ctx._source.goodName = #[dynamicPriceTemplate->goodName,escapeCount=2];#*在脚本中，含有特殊字符的goodName需要转义2次*#
+              ctx._source.goodsId = #[dynamicPriceTemplate->goodsId];
+              ctx._source.dynamicPriceTemplate.goodsId = params.goodsId;
+              ctx._source.rules = params.rules
+            """,
+            @{scriptPianduan2}
+          }
+        }]]>
+    </property>
+
+    <property name="testHighlightSearch">
+        <![CDATA[{
+            "query": {
+                "bool": {
+                    "filter": [
+                        {   ## 时间范围检索，返回对应时间范围内的记录，接受long型的值
+                            "range": {
+                                "agentStartTime": {
+                                    "gte": #[startTime],##统计开始时间
+                                    "lt": #[endTime]  ##统计截止时间
+                                }
+                            }
+                        }
+                    ],
+                    "must": [
+                        #*
+                        {
+                            "query_string": {
+                                "query": #[condition],
+                                "analyze_wildcard": true
+                            }
+                        }
+                        *#
+                        {
+                        ## 全文检索参考文档  https://www.elastic.co/guide/en/elasticsearch/reference/6.2/full-text-queries.html
+                            "match_phrase" : {
+                                "name" : {
+                                    "query" : #[condition]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            ## 最多返回1010条记录
+            "size":1010,
+            ## 高亮检索定义，参考文档：https://www.elastic.co/guide/en/elasticsearch/reference/6.2/search-request-highlighting.html
+            "highlight": {
+                "pre_tags": [
+                    "<mark>"
+                ],
+                "post_tags": [
+                    "</mark>"
+                ],
+                "fields": {
+                    "*": {}
+                },
+                "fragment_size": 2147483647
+            }
+        }]]>
+    </property>
 
 </properties>

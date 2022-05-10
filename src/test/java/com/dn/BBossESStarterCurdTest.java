@@ -1,6 +1,7 @@
 package com.dn;
 
 
+import com.dn.estest.crud.DocumentCRUD7;
 import com.dn.service.DocumentCRUD;
 import lombok.extern.slf4j.Slf4j;
 import org.frameworkset.elasticsearch.ElasticSearchException;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,14 +35,16 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
-public class BBossESStarterTestCase {
+public class BBossESStarterCurdTest {
 
     @Autowired
     private BBossESStarter bbossESStarter;
     @Autowired
     DocumentCRUD documentCRUD;
+    @Autowired
+    DocumentCRUD7 documentCRUD7;
 
-    private Logger logger = LoggerFactory.getLogger(BBossESStarterTestCase.class);//日志
+    private Logger logger = LoggerFactory.getLogger(BBossESStarterCurdTest.class);//日志
 
 
     private ClientInterface clientInterface;//bboss dsl工具
@@ -116,9 +120,14 @@ public class BBossESStarterTestCase {
         documentCRUD.SearchDocumentId();
     }
 
+   @Test
+    public void testDeleteDocuments(){
+       documentCRUD.deleteDocuments();
+    }
+
     @Test
-    public void testCreateDemoIndice(){
-       documentCRUD.dropAndCreateDemoIndice();
+    public void testDeleteByDocumentId(){
+        documentCRUD.testDeleteDocument();
     }
 
 
@@ -129,11 +138,6 @@ public class BBossESStarterTestCase {
 
 
     @Test
-    public void searchDemoByDocumentId() {
-        documentCRUD.searchDemoByDocumentId();
-    }
-
-    @Test
     public void searchByMapParamInfo() {
 
         documentCRUD.searchMapParamsResult();
@@ -142,7 +146,6 @@ public class BBossESStarterTestCase {
     public void SearchAllDemoResult() throws Exception {
         documentCRUD.SearchAllDemoResult();
     }
-
 
     @Test
     public void addGateWay() throws Exception {
@@ -168,6 +171,25 @@ public class BBossESStarterTestCase {
         log.info("==agentinfo===" + exist);
 
     }
+
+    @Test
+    public void updateDemoIndice(){
+        documentCRUD7.updateDemoIndice();
+    }
+
+    @Test
+    public void testCreateTempate() throws ParseException {
+        documentCRUD7.testCreateTempate();
+    }
+    @Test
+    public void testAddAndUpdateMapDocument() throws ParseException {
+        documentCRUD7.testAddAndUpdateMapDocument();
+    }
+    @Test
+    public void testSearchDatas() throws ParseException {
+        documentCRUD7.testSearch();
+    }
+
 
 
 

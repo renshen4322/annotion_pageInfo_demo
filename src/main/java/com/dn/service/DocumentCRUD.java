@@ -40,13 +40,13 @@ public class DocumentCRUD {
 
     private final String mappath2 = "esmapper/gateway.xml";
 
-    private ClientInterface clientInterface;
+    private ClientInterface clientInterface;//bboss dsl工具
 
     public void dropDemoIndice() {
         ClientInterface clientUtil = bbossESStarter.getConfigRestClient(mappath);
 
         //To determine whether the indice demo exists, it returns true if it exists and false if it does not
-        boolean exist = clientUtil.existIndiceType("demo", "demo");
+        boolean exist = clientUtil.existIndice("demo");
 
         //Delete mapping if the indice demo already exists
         if (exist) {
@@ -61,7 +61,7 @@ public class DocumentCRUD {
         //Get the document object according to the document id, and return the Demo object
         Demo demo = clientUtil.getDocument("demo",//indice name
                 "demo",//idnex type
-                "jm2BiIABPEdR77RHLJ3g",//document id
+                "1",//document id
                 Demo.class);
 
         logger.info("Print the modified result:getDocument---documentId1--------------------");
@@ -96,6 +96,12 @@ public class DocumentCRUD {
     public void addDemoDocument() {
         //Build a create/modify/get/delete document client object, single instance multi-thread security
         ClientInterface clientUtil = bbossESStarter.getRestClient();
+      /*  boolean exist = clientUtil.existIndiceType("demo", "demo");
+        //Delete mapping if the indice demo already exists
+        if (exist) {
+            String r = clientUtil.dropIndice("demo");
+            logger.debug("clientUtil.dropIndice(\"demo\") response:" + r);
+        }*/
         //Build an object as index document
         Demo demo = new Demo();
         demo.setDemoId(1L);//Specify the document id, the unique identity, and mark with the @ESId annotation. If the demoId already exists, modify the document; otherwise, add the document
@@ -111,15 +117,17 @@ public class DocumentCRUD {
         String response = clientUtil.addDocument("demo",//indice name
                 "demo",//idnex type
                 demo, "refresh=true");
-        logger.debug("Print the result：addDocument-------------------------");
-        logger.debug(response);
-
+        demo = clientUtil.getDocument("demo",//indice name
+                "demo",//idnex type
+                "1",//document id
+                Demo.class);
+        logger.info(JSON.toJSONString(demo));
 
         demo = new Demo();
         demo.setDemoId(2L);//Specify the document id, the unique identity, and mark with the @ESId annotation. If the demoId already exists, modify the document; otherwise, add the document
         demo.setApplicationName("blackcatdemo2");
         demo.setContentBody("this is content body2");
-        demo.setName("zhangxueyou");
+        demo.setName("张学友");
         demo.setOrderId("NFZF15045871807281445364228");
         demo.setContrastStatus(3);
         demo.setAgentStartTime(new Date());
@@ -158,7 +166,6 @@ public class DocumentCRUD {
                 "3",//document id
                 Demo.class);
         logger.info(JSON.toJSONString(demo));
-
 
         demo = new Demo();
         demo.setDemoId(4L);//Specify the document id, the unique identity, and mark with the @ESId annotation. If the demoId already exists, modify the document; otherwise, add the document
@@ -213,7 +220,7 @@ public class DocumentCRUD {
         Demo demo = new Demo();
         demo.setDemoId(2L);//Specify the document id, the unique identity, and mark with the @ESId annotation. If the demoId already exists, modify the document; otherwise, add the document
         demo.setApplicationName("blackcatmarktest");
-        demo.setContentBody("this is modify content 张学友");
+        demo.setContentBody(" content 张学友");
         demo.setName("张学友\t");
         demo.setOrderId("NFZF15045871807281445364228");
         demo.setContrastStatus(1);
@@ -221,11 +228,11 @@ public class DocumentCRUD {
         demo.setAgentStartTimeZh(new Date());
         //Execute update and force refresh
         String response = clientUtil.updateDocument("demo",//index name
-                "demo", "j22BiIABPEdR77RHLp1m", demo);
+                "demo", "2", demo,"refresh=true" );
         //Get the modified document object according to the document id and return the json message string
         response = clientUtil.getDocument("demo",//indice name
                 "demo",//idnex type
-                "j22BiIABPEdR77RHLp1m");//document id
+                "2");//document id
         logger.info("Print updateDocument:getDocument---documentId3----------------------");
         logger.info(response);
 
@@ -247,11 +254,11 @@ public class DocumentCRUD {
      */
     public void testBulkAddDocuments() {
         //创建批量创建文档的客户端对象，单实例多线程安全
-        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/scroll.xml");
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("esmapper/demo.xml");
         List<Demo> demos = new ArrayList<Demo>();
         Demo demo = null;
         long start = System.currentTimeMillis();
-        for (int i = 1; i <= 5000; i++) {
+        for (int i = 1; i <= 2002; i++) {
             demo = new Demo();//定义第一个对象
             demo.setDemoId((long) i);
             demo.setAgentStartTime(new Date());
@@ -268,7 +275,7 @@ public class DocumentCRUD {
         }
         //批量添加或者修改2万个文档，将两个对象添加到索引表demo中，批量添加2万条记录耗时1.8s，
         String response = clientUtil.addDocuments("test_demo",//索引表
-                "demo",//索引类型
+                //索引类型
                 demos, "refresh=true");//为了测试效果,启用强制刷新机制，实际线上环境去掉最后一个参数"refresh=true"
         long end = System.currentTimeMillis();
         System.out.println("BulkAdd 2000 Documents elapsed:" + (end - start) + "毫秒");
@@ -440,6 +447,16 @@ public class DocumentCRUD {
                 new String[]{"2", "3"});//Batch delete document ids
     }
 
+    public void testDeleteDocument(){
+        ClientInterface clientUtil = bbossESStarter.getRestClient();
+        //删除不存在的文档
+        String response = clientUtil.deleteDocument("demo",//索引表
+                "demo",
+                "6" //文档id
+                ,"refresh=true"   //此参数刷新作用
+        );
+        System.out.println(response);
+    }
 
     public void searchDemoByDocumentId() {
         ClientInterface clientUtil = bbossESStarter.getRestClient();
@@ -447,9 +464,9 @@ public class DocumentCRUD {
         //Get the document object according to the document id, and return the Demo object
         Demo demo = clientUtil.getDocument("demo",//indice name
                 "demo",//idnex type
-                "j22BiIABPEdR77RHLp1m",//document id
+                "2",//document id
                 Demo.class);
-        logger.info("searchAllPararrel==:" + JSON.toJSONString(demo));
+        logger.info("searchByESId==:" + JSON.toJSONString(demo));
     }
 
 
@@ -486,7 +503,7 @@ public class DocumentCRUD {
         //Execute the query
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("applicationName1", "prvider-annotoion-pageInfo");
-        params.put("applicationName2", "blackcatmarktest");
+        params.put("applicationName2", "blackcatdemo2");
         String template = clientUtil.executeHttp("/demo/_search", "searchDatas", params, ClientInterface.HTTP_POST);
         logger.info("template============" + template);
         return template;
