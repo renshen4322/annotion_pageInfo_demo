@@ -2,4 +2,4 @@ nacos:
   server-addr: 192.168.150.132:8848
   username: nacos
   password: nacos
-  namespace: 13391ba4-2db6-480c-ada2-def1c2468e8b
+  namespace: b3b649ac-c335-4572-960c-f2d5916a803e
