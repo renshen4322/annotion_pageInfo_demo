@@ -8,7 +8,7 @@ spring:
       config:
         namespace: b3b649ac-c335-4572-960c-f2d5916a803e
         file-extension: yaml
-        server-addr: 192.168.150.144:8848
+        server-addr: 192.168.150.143:8848
         group: DEFAULT_GROUP
 
 

@@ -1,12 +1,16 @@
 package com.dn.controller;
 
 import com.dn.dto.RequestUserDto;
+import com.dn.model.TestUser;
 import com.dn.model.User;
 import com.dn.service.UserService;
 import com.dn.util.ExtBeansUtils;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.javaboy.encrypt.starter.anno.Decrypt;
+import org.javaboy.encrypt.starter.anno.Encrypt;
+import org.javaboy.encrypt.starter.model.RespBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Controller;
@@ -101,5 +105,20 @@ public class UserController {
     public Object queryPage(String userName) {
         PageInfo<User> page = this.userService.queryPage(userName, 1, 10);
         return page;
+    }
+
+    @GetMapping("/setUser")
+    @Encrypt
+    public RespBean getUser() {
+        TestUser user = new TestUser();
+        user.setId((long) 99);
+        user.setUsername("javaboy");
+        return RespBean.ok("ok", user);
+    }
+
+    @PostMapping("/decrUser")
+    public RespBean getUser(@RequestBody @Decrypt TestUser user) {
+        System.out.println("user = " + user);
+        return RespBean.ok("ok", user);
     }
 }

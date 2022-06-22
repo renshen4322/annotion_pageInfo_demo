@@ -19,7 +19,7 @@ spring:
             #elasticPassword: changeme
             elasticsearch:
                 rest:
-                    hostNames: 192.168.150.142:9200
+                    hostNames: 192.168.150.145:9200
                     ##hostNames: 192.168.150.131:9200,192.168.8.26:9200,192.168.8.27:9200  ##集群地址配置
                 dateFormat: yyyy.MM.dd
                 timeZone: Asia/Shanghai
