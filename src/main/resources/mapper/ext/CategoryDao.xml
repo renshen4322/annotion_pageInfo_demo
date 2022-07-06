@@ -3,10 +3,14 @@
 
 <mapper namespace="com.dn.dao.CategoryDao">
 
-    <select id="selectList" resultMap="BaseResultMap">
+    <select id="selectList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select *
         from category
         where show_status = 1
     </select>
-
+    <select id="selectListByCid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select *
+        from category
+        where show_status = 1 and parent_cid=#{cid}
+    </select>
 </mapper>

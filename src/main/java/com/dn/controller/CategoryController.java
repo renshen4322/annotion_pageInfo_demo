@@ -44,9 +44,7 @@ public class CategoryController {
 
     @RequestMapping(value = "/page/categoryInfo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public PageInf<Category> queryCategoryList(@RequestBody CategoryDto dto) {
-        List<Category> finalEntities = categoryDao.selectList();
-        PageInf<Category> pageInf = PageUtils.executePage(dto, () -> finalEntities);
-
+        PageInf<Category> pageInf = PageUtils.executePage(dto, Category.class, () -> categoryDao.selectList());
         return pageInf;
     }
 }

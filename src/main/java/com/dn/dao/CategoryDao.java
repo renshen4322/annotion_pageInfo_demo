@@ -21,5 +21,7 @@ public interface CategoryDao {
 
     int updateByPrimaryKey(Category record);
 
+    List<Category> selectListByCid(Integer cid);
+
     List<Category> selectList();
 }
