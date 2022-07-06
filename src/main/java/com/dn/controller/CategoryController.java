@@ -42,10 +42,9 @@ public class CategoryController {
         return categoryService.listWithTree();
     }
 
-    @RequestMapping(value = "/page/category", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/page/categoryInfo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public PageInf<Category> queryCategoryList(@RequestBody CategoryDto dto) {
-        List<Category> entities = categoryDao.selectList();
-        List<Category> finalEntities = entities;
+        List<Category> finalEntities = categoryDao.selectList();
         PageInf<Category> pageInf = PageUtils.executePage(dto, () -> finalEntities);
 
         return pageInf;
