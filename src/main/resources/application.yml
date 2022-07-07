@@ -6,41 +6,41 @@ spring:
     application:
         name: prvider-annotoion-pageInfo
      
-    elasticsearch:
-        includeTypeName: true  # 设置为true，兼容ES 6的indexType （默认false，不开启 不能在index mapping和index Template中包含indexType）
-        sliceScrollThreadCount: 50
-        sliceScrollThreadQueue: 100
-        sliceScrollBlockedWaitTimeout: 0 #单位毫秒
-        scrollThreadCount: 50
-        scrollThreadQueue: 100
-        scrollBlockedWaitTimeout: 0 #单位毫秒
-        bboss:
-            #elasticUser: elastic
-            #elasticPassword: changeme
-            elasticsearch:
-                rest:
-                    hostNames: 192.168.161.129:9200
-                    ##hostNames: 192.168.150.131:9200,192.168.8.26:9200,192.168.8.27:9200  ##集群地址配置
-                dateFormat: yyyy.MM.dd
-                timeZone: Asia/Shanghai
-                showTemplate: true
-                discoverHost: false
-            dslfile:
-                refreshInterval: -1
-            http:
-                timeoutConnection: 50000
-                timeoutSocket: 50000
-                connectionRequestTimeout: 50000
-                retryTime: 1
-                maxLineLength: -1
-                maxHeaderCount: 200
-                maxTotal: 400
-                defaultMaxPerRoute: 200
-                soReuseAddress: false
-                soKeepAlive: false
-                timeToLive: 3600000
-                keepAlive: 3600000
-                keystore:
-                keyPassword:
-                hostnameVerifier:
+#    elasticsearch:
+#        includeTypeName: true  # 设置为true，兼容ES 6的indexType （默认false，不开启 不能在index mapping和index Template中包含indexType）
+#        sliceScrollThreadCount: 50
+#        sliceScrollThreadQueue: 100
+#        sliceScrollBlockedWaitTimeout: 0 #单位毫秒
+#        scrollThreadCount: 50
+#        scrollThreadQueue: 100
+#        scrollBlockedWaitTimeout: 0 #单位毫秒
+#        bboss:
+#            #elasticUser: elastic
+#            #elasticPassword: changeme
+#            elasticsearch:
+#                rest:
+#                    hostNames: 192.168.161.129:9200
+#                    ##hostNames: 192.168.150.131:9200,192.168.8.26:9200,192.168.8.27:9200  ##集群地址配置
+#                dateFormat: yyyy.MM.dd
+#                timeZone: Asia/Shanghai
+#                showTemplate: true
+#                discoverHost: false
+#            dslfile:
+#                refreshInterval: -1
+#            http:
+#                timeoutConnection: 50000
+#                timeoutSocket: 50000
+#                connectionRequestTimeout: 50000
+#                retryTime: 1
+#                maxLineLength: -1
+#                maxHeaderCount: 200
+#                maxTotal: 400
+#                defaultMaxPerRoute: 200
+#                soReuseAddress: false
+#                soKeepAlive: false
+#                timeToLive: 3600000
+#                keepAlive: 3600000
+#                keystore:
+#                keyPassword:
+#                hostnameVerifier:
 
