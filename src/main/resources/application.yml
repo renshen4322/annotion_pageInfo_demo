@@ -28,9 +28,9 @@ spring:
             dslfile:
                 refreshInterval: -1
             http:
-                timeoutConnection: 5000
-                timeoutSocket: 5000
-                connectionRequestTimeout: 5000
+                timeoutConnection: 50000
+                timeoutSocket: 50000
+                connectionRequestTimeout: 50000
                 retryTime: 1
                 maxLineLength: -1
                 maxHeaderCount: 200
