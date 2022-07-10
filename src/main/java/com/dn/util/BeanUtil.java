@@ -1,7 +1,7 @@
 package com.dn.util;
 
 import com.dn.annotation.NeedSetValue;
-import com.frameworkset.util.StringUtil;
+import com.github.pagehelper.util.StringUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
