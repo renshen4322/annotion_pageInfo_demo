@@ -194,7 +194,7 @@ public class PageModel {
         }
         this.disposePage();
         page= this.getPage();
-        if (page * pageRecorders < totalRows) {// 判断是否为最后一页
+        if (page * pageRecorders < totalRows) {
             pageEndRow = page * pageRecorders;
             pageStartRow = pageEndRow - pageRecorders;
         } else {
