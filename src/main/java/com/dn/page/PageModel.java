@@ -1,9 +1,8 @@
 package com.dn.page;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.*;
 
 /**
  * Description:
@@ -339,6 +338,15 @@ public class PageModel {
         }
 
 
+    }
+
+    @Scheduled(cron = "0 59 23 28-31 * ?")
+    public void execute() {
+        final Calendar c = Calendar.getInstance();
+        if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
+            //是最后一天
+            System.out.println("重置密码错误次数！");
+        }
     }
 
 /*    private List getDTPagingList(OutWardPanelReponse panelDTO, Integer pSize, Integer page, List<OutWardDTEntity> detailList) {
