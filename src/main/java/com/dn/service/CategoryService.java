@@ -2,7 +2,11 @@ package com.dn.service;
 
 import com.dn.dao.CategoryDao;
 import com.dn.dao.OrderDao;
+import com.dn.dao.PlatformPingTuanDayStatisticsMapper;
 import com.dn.model.Category;
+import com.dn.model.PlatformPingTuanDayStatistics;
+import com.dn.page.ListQueryResult;
+import com.dn.request.PingTuanDayStatQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,9 @@ import java.util.List;
 public class CategoryService {
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private PlatformPingTuanDayStatisticsMapper pingTuanDayStatisticsMapper;
 
     public List<Category> listWithTree() {
         // 1.查询出所有的分类
@@ -73,5 +80,17 @@ public class CategoryService {
             }
         });
         return children;
+    }
+
+    public ListQueryResult<PlatformPingTuanDayStatistics> getPingTuanDayStatList(PingTuanDayStatQuery query) {
+        ListQueryResult<PlatformPingTuanDayStatistics> dayListQueryResult = new ListQueryResult<>(0, null);
+        Integer count = pingTuanDayStatisticsMapper.getDayPingTuanInfoCount(query);
+        if (null == count || 0 >= count) {
+            return dayListQueryResult;
+        }
+        dayListQueryResult.setTotal(count);
+        List<PlatformPingTuanDayStatistics> docList = pingTuanDayStatisticsMapper.getPingTuanDayStatList(query);
+        dayListQueryResult.setRows(docList);
+        return dayListQueryResult;
     }
 }

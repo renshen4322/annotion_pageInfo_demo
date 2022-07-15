@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dn.dao.PlatformPingTuanDayStatisticsMapper">
+    <resultMap id="BaseResultMap" type="com.dn.model.PlatformPingTuanDayStatistics">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="statisticsofday" jdbcType="DATE" property="statisticsofday"/>
+        <result column="totalpingtuancount" jdbcType="INTEGER" property="totalpingtuancount"/>
+        <result column="totalpingtuanpersons" jdbcType="INTEGER" property="totalpingtuanpersons"/>
+        <result column="platgranttotalmoney" jdbcType="DECIMAL" property="platgranttotalmoney"/>
+        <result column="grantredbagamt" jdbcType="DECIMAL" property="grantredbagamt"/>
+        <result column="agentrebateamount" jdbcType="DECIMAL" property="agentrebateamount"/>
+        <result column="totalgrantjifeng" jdbcType="DECIMAL" property="totalgrantjifeng"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , statisticsofday, totalpingtuancount, totalpingtuanpersons, platgranttotalmoney,
+    grantredbagamt, agentrebateamount, totalgrantjifeng
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_pingtuan_day_statistics
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from platform_pingtuan_day_statistics
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.dn.model.PlatformPingTuanDayStatistics"
+            useGeneratedKeys="true">
+        insert into platform_pingtuan_day_statistics (statisticsofday, totalpingtuancount,
+                                                      totalpingtuanpersons, platgranttotalmoney,
+                                                      grantredbagamt, agentrebateamount, totalgrantjifeng)
+        values (#{statisticsofday,jdbcType=DATE}, #{totalpingtuancount,jdbcType=INTEGER},
+                #{totalpingtuanpersons,jdbcType=INTEGER}, #{platgranttotalmoney,jdbcType=DECIMAL},
+                #{grantredbagamt,jdbcType=DECIMAL}, #{agentrebateamount,jdbcType=DECIMAL},
+                #{totalgrantjifeng,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.dn.model.PlatformPingTuanDayStatistics"
+            useGeneratedKeys="true">
+        insert into platform_pingtuan_day_statistics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="statisticsofday != null">
+                statisticsofday,
+            </if>
+            <if test="totalpingtuancount != null">
+                totalpingtuancount,
+            </if>
+            <if test="totalpingtuanpersons != null">
+                totalpingtuanpersons,
+            </if>
+            <if test="platgranttotalmoney != null">
+                platgranttotalmoney,
+            </if>
+            <if test="grantredbagamt != null">
+                grantredbagamt,
+            </if>
+            <if test="agentrebateamount != null">
+                agentrebateamount,
+            </if>
+            <if test="totalgrantjifeng != null">
+                totalgrantjifeng,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="statisticsofday != null">
+                #{statisticsofday,jdbcType=DATE},
+            </if>
+            <if test="totalpingtuancount != null">
+                #{totalpingtuancount,jdbcType=INTEGER},
+            </if>
+            <if test="totalpingtuanpersons != null">
+                #{totalpingtuanpersons,jdbcType=INTEGER},
+            </if>
+            <if test="platgranttotalmoney != null">
+                #{platgranttotalmoney,jdbcType=DECIMAL},
+            </if>
+            <if test="grantredbagamt != null">
+                #{grantredbagamt,jdbcType=DECIMAL},
+            </if>
+            <if test="agentrebateamount != null">
+                #{agentrebateamount,jdbcType=DECIMAL},
+            </if>
+            <if test="totalgrantjifeng != null">
+                #{totalgrantjifeng,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.dn.model.PlatformPingTuanDayStatistics">
+        update platform_pingtuan_day_statistics
+        <set>
+            <if test="statisticsofday != null">
+                statisticsofday = #{statisticsofday,jdbcType=DATE},
+            </if>
+            <if test="totalpingtuancount != null">
+                totalpingtuancount = #{totalpingtuancount,jdbcType=INTEGER},
+            </if>
+            <if test="totalpingtuanpersons != null">
+                totalpingtuanpersons = #{totalpingtuanpersons,jdbcType=INTEGER},
+            </if>
+            <if test="platgranttotalmoney != null">
+                platgranttotalmoney = #{platgranttotalmoney,jdbcType=DECIMAL},
+            </if>
+            <if test="grantredbagamt != null">
+                grantredbagamt = #{grantredbagamt,jdbcType=DECIMAL},
+            </if>
+            <if test="agentrebateamount != null">
+                agentrebateamount = #{agentrebateamount,jdbcType=DECIMAL},
+            </if>
+            <if test="totalgrantjifeng != null">
+                totalgrantjifeng = #{totalgrantjifeng,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.dn.model.PlatformPingTuanDayStatistics">
+        update platform_pingtuan_day_statistics
+        set statisticsofday      = #{statisticsofday,jdbcType=DATE},
+            totalpingtuancount   = #{totalpingtuancount,jdbcType=INTEGER},
+            totalpingtuanpersons = #{totalpingtuanpersons,jdbcType=INTEGER},
+            platgranttotalmoney  = #{platgranttotalmoney,jdbcType=DECIMAL},
+            grantredbagamt       = #{grantredbagamt,jdbcType=DECIMAL},
+            agentrebateamount    = #{agentrebateamount,jdbcType=DECIMAL},
+            totalgrantjifeng     = #{totalgrantjifeng,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--查某一日期下的拼团统计信息-->
+    <select id="queryPingTuanInfoByDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_pingtuan_day_statistics where DATE_FORMAT(statisticsofday,'%Y-%m-%d') = #{currDate}
+    </select>
+    <select id="querySumPingTuanInfoByMonth" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select sum(p.totalpingtuancount)  totalpingtuancount,
+               sum(totalpingtuanpersons)  totalpingtuanpersons,
+               sum(p.platgranttotalmoney) platgranttotalmoney,
+               sum(p.grantredbagamt)      grantredbagamt,
+               sum(p.agentrebateamount)   agentrebateamount,
+               sum(p.totalgrantjifeng)    totalgrantjifeng
+        from platform_pingtuan_day_statistics p
+        where DATE_FORMAT(p.statisticsofday, '%Y-%m') = #{currMonth}
+    </select>
+
+    <select id="getDayPingTuanInfoCount" resultType="java.lang.Integer">
+        select count(id) from platform_pingtuan_day_statistics
+        <where>
+            <if test="querystarttime != null and querystarttime != ''">
+                AND statisticsofday &gt;= #{querystarttime}
+            </if>
+            <if test="queryendtime != null and queryendtime != ''">
+                AND statisticsofday &lt;= #{queryendtime}
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="getPingTuanDayStatList" resultMap="BaseResultMap">
+        select
+        <choose>
+            <when test="null != queryFields">
+                <foreach collection="queryFields" separator="," item="field">
+                    `${field}`
+                </foreach>
+            </when>
+            <otherwise>
+                *
+            </otherwise>
+        </choose>
+        from platform_pingtuan_day_statistics
+        <where>
+            <if test="querystarttime != null and querystarttime != ''">
+                AND statisticsofday &gt;= #{querystarttime}
+            </if>
+            <if test="queryendtime != null and queryendtime != ''">
+                AND statisticsofday &lt;= #{queryendtime}
+            </if>
+        </where>
+        order by
+        <choose>
+            <when test="sortBy != null">
+                ${sortBy}
+            </when>
+            <otherwise>
+                statisticsofday
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="sortOrder != null">
+                ${sortOrder}
+            </when>
+            <otherwise>
+                desc
+            </otherwise>
+        </choose>
+        limit
+        <choose>
+            <when test="offset != null and offset >= 0">
+                #{offset}
+            </when>
+            <otherwise>
+                0
+            </otherwise>
+        </choose>
+        ,
+        <choose>
+            <when test="length != null and length > 0">
+                #{length}
+            </when>
+            <otherwise>
+                20
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>
