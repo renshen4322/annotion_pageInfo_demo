@@ -158,4 +158,14 @@ public class TypeConvertUtils {
         return lastDayOfMonth;
     }
 
+    /**
+     * 当月第一天日期
+     * @return
+     */
+    public static LocalDate getFirstDayOfCurrMonth(){
+        LocalDate currDate = LocalDate.now();
+        LocalDate lastDayOfMonth = currDate.with(TemporalAdjusters.firstDayOfMonth());
+        return lastDayOfMonth;
+    }
+
 }

@@ -179,15 +179,30 @@ class DemoApplicationTests {
         System.out.println("date======" + c.getActualMaximum(Calendar.DATE));
     }
 
-    // @Scheduled(cron = "0 59 23 28-31 * ?")
+    // @Scheduled(cron = "0 59 23 28-31 * ?") //每月最后一天
     @Test
     public void execute() {
         final Calendar c = Calendar.getInstance();
         if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
             //是最后一天
-            System.out.println("重置密码错误次数！");
+            System.out.println("是最后一天！");
         }
     }
+    // @Scheduled(cron = "0 28 0 1 * ?") //每月第一天 0点28分跑
+    @Test
+    public void execute2() {
+        LocalDate curdate = TypeConvertUtils.getFirstDayOfCurrMonth();
+        System.out.println(curdate.toString());
+
+        final Calendar c = Calendar.getInstance();
+        System.out.println("c.get(Calendar.DATE)====" + c.get(Calendar.DATE));
+        System.out.println("c.getActualMinimum(Calendar.DATE)===" + c.getActualMinimum(Calendar.DATE));
+        if (c.get(Calendar.DATE) == c.getActualMinimum(Calendar.DATE)) {
+            //是第一天
+            System.out.println("是第一天！");
+        }
+    }
+
     @Test
     public void testNum() throws Exception {
         Double groupUsers = 3.0/6 * 100; // Double.valueOf((3/6) * 100);
