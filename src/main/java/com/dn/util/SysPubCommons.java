@@ -1,8 +1,14 @@
 package com.dn.util;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -16,15 +22,6 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class SysPubCommons
 {
-
-    public static final String PATTERN_YEAR = "yyyy";
-    public static final String PATTERN_YEARMONTH = "yyyyMM";
-    public static final String PATTERN_DATE = "yyyy-MM-dd";
-    public static final String PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
-    public static final String PATTERN_DATETIME_AA = "yyyy-MM-dd hh:mm:ssaa";
-    public static final String SIGN_SIGN_DATATIME = "yyyyMMddHHmmss";
-    public static final String PATTERN_DATETIME_ = "yyyy/MM/dd HH:mm:ss";
-
     /**
      * 获取当前系统时间
      * @param strForMat
@@ -41,6 +38,25 @@ public class SysPubCommons
     }
 
     /**
+     * 获取当前系统时间
+     * @param strForMat
+     * @return
+     * @throws Exception
+     */
+    public static String GetCurrentTime(String strNowTime,String strForMat)
+    {
+        String strNowTimeTmep = strNowTime;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime nowtime = LocalDateTime.parse(strNowTimeTmep,formatter);
+
+        String strNowConvertTime = nowtime.format(DateTimeFormatter.ofPattern(strForMat));
+
+        return strNowConvertTime;
+    }
+
+    /**
      * 获取当前系统时间戳
      * @return
      * @throws Exception
@@ -54,23 +70,13 @@ public class SysPubCommons
         return iNowTime;
     }
 
+
     /**
-     * 将某个系统日期转换为时间戳
+     * 获取当前系统时间戳
      * @return
      * @throws Exception
      */
-    public static int GetCurrentTimeInt(String strConvertTime)
-    {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        LocalDateTime nowtime = LocalDateTime.parse(strConvertTime,formatter);
-
-        int iNowTime = (int)nowtime.toEpochSecond(ZoneOffset.of("+8"));
-
-        return iNowTime;
-    }
-
-    public static String GetAfterConvertTime(String strNowTime,Long addDay,String strForMat)
+    public static int GetCurrentTimeInt(String strNowTime)
     {
         String strNowTimeTmep = strNowTime;
 
@@ -78,11 +84,38 @@ public class SysPubCommons
 
         LocalDateTime nowtime = LocalDateTime.parse(strNowTimeTmep,formatter);
 
-        LocalDateTime minunow = nowtime.plusDays(addDay);
+        int iNowTime = (int)nowtime.toEpochSecond(ZoneOffset.of("+8"));
 
-        String strConvertNowTime = minunow.format(DateTimeFormatter.ofPattern(strForMat));
+        return iNowTime;
+    }
 
-        return strConvertNowTime;
+    /**
+     * 获取当前系统时间戳
+     * @return
+     * @throws Exception
+     */
+    public static long GetCurrentTimeMillInt()
+    {
+        LocalDateTime now = LocalDateTime.now();
+
+        long iNowTime = now.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+
+        return iNowTime;
+    }
+
+    /**
+     * 将时间戳转为日期
+     * @param signtime
+     * @param strForMat
+     * @return
+     */
+    public static String ConvertSignTimeToDate(int signtime,String strForMat)
+    {
+        LocalDateTime now = LocalDateTime.ofInstant(Instant.ofEpochSecond(signtime), ZoneId.of("+8"));
+
+        String strNowTime = now.format(DateTimeFormatter.ofPattern(strForMat));
+
+        return strNowTime;
     }
 
     /**
@@ -112,7 +145,7 @@ public class SysPubCommons
      * @param strForMat
      * @return
      */
-    public static String GetBeforeConvertMonthTime(String strNowTime,Long addMonth,String strForMat)
+    public static String GetAfterConvertTime(String strNowTime,Long addDay,String strForMat)
     {
         String strNowTimeTmep = strNowTime;
 
@@ -120,7 +153,7 @@ public class SysPubCommons
 
         LocalDateTime nowtime = LocalDateTime.parse(strNowTimeTmep,formatter);
 
-        LocalDateTime minunow = nowtime.minusMonths(addMonth);
+        LocalDateTime minunow = nowtime.plusDays(addDay);
 
         String strConvertNowTime = minunow.format(DateTimeFormatter.ofPattern(strForMat));
 
@@ -133,7 +166,7 @@ public class SysPubCommons
      * @param strForMat
      * @return
      */
-    public static String GetAfterConvertDayTime(String strNowTime,Long addDays,String strForMat)
+    public static String GetBeforeConvertHourTime(String strNowTime,Long addHour,String strForMat)
     {
         String strNowTimeTmep = strNowTime;
 
@@ -141,7 +174,7 @@ public class SysPubCommons
 
         LocalDateTime nowtime = LocalDateTime.parse(strNowTimeTmep,formatter);
 
-        LocalDateTime minunow = nowtime.plusDays(addDays);
+        LocalDateTime minunow = nowtime.minusHours(addHour);
 
         String strConvertNowTime = minunow.format(DateTimeFormatter.ofPattern(strForMat));
 
@@ -154,7 +187,7 @@ public class SysPubCommons
      * @param strForMat
      * @return
      */
-    public static String GetAfterConvertMinuteTime(String strNowTime,Long addMinutes,String strForMat)
+    public static String GetAfterConvertHourTime(String strNowTime,Long addHour,String strForMat)
     {
         String strNowTimeTmep = strNowTime;
 
@@ -162,38 +195,40 @@ public class SysPubCommons
 
         LocalDateTime nowtime = LocalDateTime.parse(strNowTimeTmep,formatter);
 
-        LocalDateTime minunow = nowtime.plusMinutes(addMinutes);
+        LocalDateTime minunow = nowtime.plusHours(addHour);
 
         String strConvertNowTime = minunow.format(DateTimeFormatter.ofPattern(strForMat));
 
         return strConvertNowTime;
     }
 
-    public static String changeFormat(String dateStr, String pattern, String newPattern) {
-        String dateStrNew = "";
-        try {
-            Date date = new SimpleDateFormat(pattern).parse(dateStr);
-            dateStrNew = formatDate(date, newPattern);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return dateStrNew;
-    }
-
     /**
-     * 格式化日期时间
-     *
+     * 将某个时间转换为固定格式(按照日期)
+     * @param strNowTime
+     * @param strForMat
      * @return
      */
-    public static String formatDate(Date date, String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        return sdf.format(date);
+    public static String GetConvertTime(String strNowTime,String strForMat)
+    {
+        String strNowTimeTmep = strNowTime;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime nowtime = LocalDateTime.parse(strNowTimeTmep,formatter);
+
+        String strConvertNowTime = nowtime.format(DateTimeFormatter.ofPattern(strForMat));
+
+        return strConvertNowTime;
     }
 
+
     /**
-     * yyyyMMddHHmmss 日期格式化指定格式
-     * */
-    public static String GetConvertFormatTime(String strNowTime,String strForMat)
+     * 将某个时间转换为固定格式(按照日期)
+     * @param strNowTime
+     * @param strForMat
+     * @return
+     */
+    public static String GetConvertTimeEx(String strNowTime,String strForMat)
     {
         String strNowTimeTmep = strNowTime;
 
@@ -206,25 +241,37 @@ public class SysPubCommons
         return strConvertNowTime;
     }
 
-    /**
-     * 获取闭区间内随机数返回int类型
-     *
-     * @param min 最小值
-     * @param max 最大值
-     * @return 随机数
-     */
-    public static int getRandomIntInRange(int min, int max)
-    {
-        return ThreadLocalRandom.current().ints(min, (max + 1)).limit(1).findFirst().getAsInt();
+    public static String timePastSomeSecond(String otime,int second) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Date dt = sdf.parse(otime);
+
+            Calendar newTime = Calendar.getInstance();
+
+            newTime.setTime(dt);
+
+            newTime.add(Calendar.SECOND, second);
+
+            Date dt1 = newTime.getTime();
+
+            String retval = sdf.format(dt1);
+
+            return retval;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return otime;
     }
 
-    /**
+        /**
      * 定义公共的对象Json格式(重载函数)
      * @param strStatus
      * @param strMsg
      * @return
      */
-    public static PubRespJsonObj GetJsonObj(String strStatus, String strMsg)
+    public static PubRespJsonObj GetJsonObj(String strStatus,String strMsg)
     {
         PubRespJsonObj jsonObj = new PubRespJsonObj();
 
@@ -241,7 +288,7 @@ public class SysPubCommons
      * @param strNormal
      * @return
      */
-    public static PubRespJsonObj GetJsonObj(String strStatus, String strMsg, String strNormal)
+    public static PubRespJsonObj GetJsonObj(String strStatus,String strMsg,String strNormal)
     {
         PubRespJsonObj jsonObj = new PubRespJsonObj();
 
@@ -258,12 +305,30 @@ public class SysPubCommons
      * @param strMsg
      * @return
      */
-    public static PubRespJsonObj GetJsonObj(String strStatus, String strMsg, Object obj)
+    public static PubRespJsonObj GetJsonObj(String strStatus,String strMsg,Object obj)
     {
         PubRespJsonObj jsonObj = new PubRespJsonObj();
 
         jsonObj.setResult(strStatus);
         jsonObj.setMsg(strMsg);
+        jsonObj.setData(obj);
+
+        return jsonObj;
+    }
+
+    /**
+     * 定义公共的对象Json格式(重载函数)
+     * @param strStatus
+     * @param strMsg
+     * @return
+     */
+    public static PubRespJsonObj GetJsonObj(String strStatus,String strMsg,String strNormal,Object obj)
+    {
+        PubRespJsonObj jsonObj = new PubRespJsonObj();
+
+        jsonObj.setResult(strStatus);
+        jsonObj.setMsg(strMsg);
+        jsonObj.setNormalinfo(strNormal);
         jsonObj.setData(obj);
 
         return jsonObj;
@@ -388,39 +453,79 @@ public class SysPubCommons
         return strJWT;
     }
 
+
     /**
-     * 获取闭区间内随机数返回int类型
-     *
-     * @param min 最小值
-     * @param max 最大值
-     * @return 随机数
+     * 将手机号中间4位替换成*
+     * @param strMobilePhone
+     * @return
      */
-    public static int GetRandomIntInRange(int min, int max)
+    public static String DealMobilPhone(String strMobilePhone)
     {
-        return ThreadLocalRandom.current().ints(min, (max + 1)).limit(1).findFirst().getAsInt();
+        String strNewPhone = "";
+
+        if(strMobilePhone == null || "".equals(strMobilePhone))
+        {
+            return strNewPhone;
+        }
+        else
+        {
+            strNewPhone = strMobilePhone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+
+            return strNewPhone;
+        }
+    }
+
+
+    /**
+     * 对请求的URL进行编码处理
+     * @param strurl
+     * @return
+     */
+    public static String UrlEncode(String strurl)
+    {
+        String retUrlStr = "";
+
+        try
+        {
+            retUrlStr = URLEncoder.encode(strurl, "utf-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return retUrlStr;
+        }
+
+        return retUrlStr;
     }
 
     /**
-     * 判断当前时间是否在[startTime, endTime]区间，注意三个参数的时间格式要一致
-     * @param nowTime
-     * @param startTime
-     * @param endTime
-     * @return 在时间段内返回true，不在返回false
+     * 对请求的URL进行编码处理
+     * @param strurl
+     * @return
      */
-    public static boolean isEffectiveDate(Date nowTime, Date startTime, Date endTime) {
-        if (nowTime.getTime() == startTime.getTime()
-                || nowTime.getTime() == endTime.getTime()) {
-            return true;
+    public static String UrlDcode(String strurl)
+    {
+        String retUrlStr = "";
+
+        try
+        {
+            retUrlStr = URLDecoder.decode(strurl, "utf-8");
         }
-        Calendar date = Calendar.getInstance();
-        date.setTime(nowTime);
+        catch (UnsupportedEncodingException e)
+        {
+            return retUrlStr;
+        }
 
-        Calendar begin = Calendar.getInstance();
-        begin.setTime(startTime);
+        return retUrlStr;
+    }
 
-        Calendar end = Calendar.getInstance();
-        end.setTime(endTime);
-
-        return date.after(begin) && date.before(end);
+    public static String getFixPintuanTicketCode(String pintuanTypeCode){
+        switch (pintuanTypeCode){
+            case "20210620104" : return "PTQ2100001";   //钻石2000
+            case "20210620103" : return "PTQ2100002";   //黄金1500
+            case "20210620102" : return "PTQ2100003";    //白银800
+            case "20210620101" : return "PTQ2100004";    //青铜400
+            case "20210620100" : return "PTQ2100005";    //新人200
+            default: return "0";
+        }
     }
 }
