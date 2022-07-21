@@ -251,4 +251,13 @@ class DemoApplicationTests {
             throw new Exception(e);
         }
     }
+
+    @Test
+    public void Test90902(){
+        LocalDateTime starttime = LocalDateTime.parse("2022-07-10" + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endtime = LocalDateTime.parse("2022-07-16" + " 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        Duration duration = Duration.between(starttime, endtime);
+        long days = duration.toDays() + 1;
+        System.out.println(days);
+    }
 }
