@@ -6,9 +6,9 @@ spring:
   cloud:
     nacos:
       config:
-        namespace: 99f383f1-2125-4ad3-a42b-31eda33df4cd
+        namespace: dce5c60d-2cc4-46ef-9951-61e69977115b
         file-extension: yaml
-        server-addr: 192.168.161.129:8848
+        server-addr: 192.168.161.131:8848
         group: DEFAULT_GROUP
 
 

@@ -340,10 +340,10 @@ public class PageModel {
 
     }
 
-    @Scheduled(cron = "0 59 23 28-31 * ?")
+    @Scheduled(cron = "0 35 0 1 * ?")
     public void execute() {
         final Calendar c = Calendar.getInstance();
-        if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
+        if (c.get(Calendar.DATE) == c.getActualMinimum(Calendar.DATE)) {
             //是最后一天
             System.out.println("重置密码错误次数！");
         }
