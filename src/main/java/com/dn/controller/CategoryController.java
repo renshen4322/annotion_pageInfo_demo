@@ -10,6 +10,7 @@ import com.dn.page.PageUtils;
 import com.dn.request.PingTuanDayStatQuery;
 import com.dn.service.CategoryService;
 import com.dn.util.PubRespJsonObj;
+import com.dn.util.PubResponseEnum;
 import com.dn.util.SysPubCommons;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class CategoryController {
         return pageInf;
     }
 
- /*   @RequestMapping("/day-list")
+/*    @RequestMapping("/day-list")
     @ResponseBody
     public PubRespJsonObj getPingTuanDayStatList(@RequestBody PingTuanDayStatQuery query) {
         try {

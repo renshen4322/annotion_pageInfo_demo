@@ -1,6 +1,9 @@
 package com.dn.test;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 
 /**
  * ClassName:Test88
@@ -25,6 +28,14 @@ public class Test88 {
        BigDecimal decimal = new BigDecimal(2.456);
         decimal.setScale(2,BigDecimal.ROUND_HALF_UP);
         System.out.println(decimal);// 2.46
+
+        LocalDate localDate = LocalDate.parse("2022-01-24");
+//        第一个参数：一周的第一天，不能为空
+//        第二个参数：第一周的最小天数，从1到7
+        WeekFields weekFields = WeekFields.ISO;
+        int weekNumber = localDate.get(weekFields.weekOfWeekBasedYear());
+        System.out.println("weekOfYear==="+weekNumber);
+
 
     }
 }

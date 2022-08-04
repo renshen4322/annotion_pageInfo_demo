@@ -64,6 +64,10 @@ public class Java8StreamTest_去重 {
     public void testUnique(){
         List<Book> books = Lists.newArrayList(new Book("1","1",18),new Book("2","2",20),new Book("3","3",23),new Book("2","2",30));
 
+        books.stream().forEach(c->{
+            System.out.println(c.id+": "+c.name+": "+c.age);
+        });
+
         //使用TreeSet去重
         List<Book> unique1 = books.stream().collect(
                 collectingAndThen(toCollection(() -> new TreeSet<>(Comparator.comparing(o -> o.getId()))),
