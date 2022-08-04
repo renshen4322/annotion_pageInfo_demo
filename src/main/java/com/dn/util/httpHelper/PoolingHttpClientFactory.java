@@ -1,5 +1,6 @@
-package com.dn.util;
+package com.dn.util.httpHelper;
 
+import org.apache.http.Header;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -9,6 +10,8 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+
+import java.util.List;
 
 /**
  * 定义了HTTP Pool 的工厂类用来生成httpclient对象
@@ -95,12 +98,23 @@ public class PoolingHttpClientFactory
 	}
 	
 	//创建httpCLient对象
-	public CloseableHttpClient CreateHttpClient()
+	public CloseableHttpClient CreateHttpClient(List<Header> headers)
 	{
-		CloseableHttpClient httpClient = HttpClients.custom()
-				.setConnectionManager(poolConnManager)
-				.setDefaultRequestConfig(requestConfig)
-				.build();
+		CloseableHttpClient httpClient;
+		if (headers != null) {
+			httpClient = HttpClients.custom()
+					.setDefaultHeaders(headers)
+					.setConnectionManager(poolConnManager)
+					.setDefaultRequestConfig(requestConfig)
+					.build();
+		}
+		else {
+			httpClient = HttpClients.custom()
+					.setConnectionManager(poolConnManager)
+					.setDefaultRequestConfig(requestConfig)
+					.build();
+		}
+
 		
 		return httpClient;
 	}
