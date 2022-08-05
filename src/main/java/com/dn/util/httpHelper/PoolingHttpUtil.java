@@ -1,5 +1,6 @@
 package com.dn.util.httpHelper;
 
+import com.alibaba.fastjson.JSON;
 import com.dn.normalexception.NormalException;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -22,10 +23,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -381,5 +379,43 @@ public class PoolingHttpUtil
 		}
 
 		return retStr;
+	}
+
+	public static void main(String[] args) {
+/*		String getTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WeiXinAppId + "&secret=" + WeiXinSecret + "&code=" + strWeiXinAuthCode + "&grant_type=authorization_code";
+		//发送Get请求获取其返回结果
+		String strTokenRetJosn = PoolingHttpUtil.doGet(getTokenUrl);
+		if(strTokenRetJosn == null || "".equals(strTokenRetJosn))
+		{
+			throw new RuntimeException("获取access_token授权信息为空");
+		}
+		Platform_WeiXinAuth_AccessTokenInfo objTokenRet = JSON.parseObject(strTokenRetJosn, Platform_WeiXinAuth_AccessTokenInfo.class);*/
+
+/*		String strParam = "{\"receipt-data\":\"" + strProductId + "\"}";
+
+		logger.info("prd strCheckURL : " + strCheckURL);
+		logger.info("prd strParam : " + strParam);
+
+		String strReturnInfo = PoolingHttpUtil.doPost(strCheckURL, strParam);*/
+
+
+		/*String resultJSON = PoolingHttpUtil.doGetCommon(API_URL, new ArrayList<PoolingHttpHeader>(){{
+			add(new PoolingHttpHeader("Authorization", "Bearer " + accessToken));
+		}});
+		logger.debug("lineUserJson : " + resultJSON);
+		LineUser lineUser = JSON.parseObject(resultJSON,LineUser.class);
+		if ((lineUser.picture == null) || (lineUser.picture.equals(""))) {
+			lineUser.picture = pubSystemConfig.getDefaultheadimgurl();
+		}*/
+
+		/*Map<String, String> oZaloAccessTokenParam = new HashMap<>();
+		oZaloAccessTokenParam.put("app_id",appId);
+		oZaloAccessTokenParam.put("grant_type","authorization_code");
+		oZaloAccessTokenParam.put("code",strOAuthCode);
+		String accessTokenResultJSON = PoolingHttpUtil.doPost(ZALO_API_ACCESSTOKEN,
+				oZaloAccessTokenParam,
+				new ArrayList<PoolingHttpHeader>(){{
+					add(new PoolingHttpHeader("secret_key", appSecret));
+				}});*/
 	}
 }

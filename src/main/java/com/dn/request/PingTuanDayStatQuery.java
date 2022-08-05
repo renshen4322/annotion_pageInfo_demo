@@ -1,16 +1,18 @@
+/*
 package com.dn.request;
 
-import com.dn.model.PlatformPingTuanDayStatistics;
 import com.dn.page.Query;
 import java.util.HashMap;
 import java.util.Map;
 
+*/
 /**
  * Description:
  *
  * @Date:2022/7/13 14:20
  * @Author: mark
- */
+ *//*
+
 public class PingTuanDayStatQuery extends Query<PlatformPingTuanDayStatistics> {
     private String querystarttime;
     private String queryendtime;
@@ -44,3 +46,4 @@ public class PingTuanDayStatQuery extends Query<PlatformPingTuanDayStatistics> {
         return new String[]{"id","statisticsofday","totalpingtuancount","totalpingtuanpersons","platgranttotalmoney","grantredbagamt","agentrebateamount","totalgrantjifeng"};
     }
 }
+*/

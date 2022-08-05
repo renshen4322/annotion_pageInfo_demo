@@ -107,6 +107,9 @@ class DemoApplicationTests {
         String LocalDate = currData.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         System.out.println("LocalDate=====" + LocalDate); //7-01
 
+        String str = "4612383636123025408";
+        System.out.println("str==="+str.length());
+
     }
 
     @Test
