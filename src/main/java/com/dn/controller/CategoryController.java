@@ -7,6 +7,7 @@ import com.dn.page.PageInf;
 import com.dn.page.PageUtils;
 import com.dn.service.CategoryService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
@@ -37,11 +38,13 @@ public class CategoryController {
 /*    @Autowired
     private PayQueryInfoService queryInfoService;*/
 
+    @ApiOperation(value = "分类树")
     @RequestMapping(value = "/list/tree", method = RequestMethod.GET)
     public List<Category> list() {
         return categoryService.listWithTree();
     }
 
+    @ApiOperation(value = "类型分页")
     @RequestMapping(value = "/page/listInfo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public PageInf<Category> queryCategoryList(@RequestBody CategoryDto dto) {
         PageInf<Category> pageInf = PageUtils.executePage(dto, Category.class, () -> categoryDao.selectList());
