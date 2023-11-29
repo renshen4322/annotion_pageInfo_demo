@@ -26,11 +26,11 @@ spring:
 #        shared-configs:
 #          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
         shared-configs:
-          - data-id: common-mysql.yaml
-            group: DEFAULT_GROUP
-
-          - data-id: common-mybatis.yaml
-            group: DEFAULT_GROUP
+#          - data-id: common-mysql.yaml
+#            group: DEFAULT_GROUP
+#
+#          - data-id: common-mybatis.yaml
+#            group: DEFAULT_GROUP
 
           - data-id: common-base.yaml
             group: DEFAULT_GROUP
